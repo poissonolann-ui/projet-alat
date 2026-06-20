@@ -17,6 +17,15 @@
   --ink:      #eef2f7;
   --ink-dim:  rgba(238, 242, 247, .55);
 
+  /* --- Heure dorée / coucher de soleil (accent chaud dominant des moments clés) --- */
+  --ember:  #ff7a2f;   /* braise — accent chaud principal */
+  --amber:  #ffb35c;   /* ambre — halo, lumière rasante */
+  --gold:   #ffd089;   /* or clair — points hauts de lumière */
+  --dusk:   #5b3b63;   /* ombre nuage violacée */
+  --char:   #140d09;   /* charbon chaud (bas d'image, contre-jour) */
+  --ember-glow: rgba(255, 122, 47, .45);
+  --amber-soft: rgba(255, 179, 92, .16);
+
   /* --- Fonds dérivés (profondeur) --- */
   --bg-0: #11161d;       /* fond le plus sombre */
   --bg-1: #18202a;

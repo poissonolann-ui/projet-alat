@@ -13,7 +13,7 @@ export const aircraft = {
     pillar: "Course / VO2 / souffle",
     idea: "Vitesse, agilité",
     svg: "aircraft/rafale.svg",
-    photo: "aircraft/rafale-solo-climb.webp",
+    photo: "aircraft/ref/rafale-tricolore.webp",
     accent: "var(--rouge-fr)",
     blurb:
       "Le souffle. La vitesse pure, l'agilité dans le ciel. Ici on travaille " +
@@ -37,7 +37,7 @@ export const aircraft = {
     pillar: "Endurance / volume / charge",
     idea: "Porter, durer (ALAT)",
     svg: "aircraft/caiman.svg",
-    photo: null,
+    photo: "aircraft/ref/caiman-golden.webp",
     accent: "var(--olive)",
     blurb:
       "Porter et durer. La machine de transport de l'ALAT. Volume, charge, " +
@@ -49,7 +49,7 @@ export const aircraft = {
     pillar: "Mental / précision / la cible",
     idea: "Le but ALAT, viser juste",
     svg: "aircraft/tigre.svg",
-    photo: null,
+    photo: "aircraft/ref/tigre-sunset.webp",
     accent: "var(--hud)",
     blurb:
       "La cible. L'hélicoptère de combat, la précision. C'est la destination : " +

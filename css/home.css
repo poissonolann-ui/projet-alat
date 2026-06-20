@@ -26,16 +26,20 @@
   object-position: 50% 42%;
   transform: scale(1.08);
   will-change: transform;
-  /* grade froid + contraste */
-  filter: saturate(0.92) contrast(1.06) brightness(0.86);
+  /* Étalonnage heure dorée : lumière rasante chaude, contre-jour. */
+  filter: saturate(1.04) contrast(1.1) brightness(0.92) sepia(0.2) hue-rotate(-12deg);
 }
 .hero-media::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(17,22,29,0.35) 0%, rgba(17,22,29,0) 30%, rgba(17,22,29,0.55) 72%, rgba(17,22,29,0.96) 100%),
-    radial-gradient(120% 80% at 50% 30%, rgba(0,38,84,0.18), transparent 60%);
+    /* halo solaire chaud, haut-droite */
+    radial-gradient(58% 44% at 76% 16%, rgba(255,176,90,0.40), rgba(255,122,47,0.12) 46%, transparent 70%),
+    /* ombre nuage violacée (dusk) */
+    radial-gradient(90% 60% at 18% 8%, rgba(91,59,99,0.22), transparent 55%),
+    /* scrim charbon chaud bas → lisibilité du titre */
+    linear-gradient(180deg, rgba(20,13,9,0.32) 0%, rgba(20,13,9,0) 30%, rgba(18,11,8,0.55) 70%, rgba(12,8,6,0.97) 100%);
 }
 
 .hero-inner {
@@ -55,7 +59,8 @@
   display: block;
   font-size: var(--fs-500);
   letter-spacing: 0.4em;
-  color: var(--sky);
+  color: var(--amber);
+  text-shadow: 0 0 24px var(--ember-glow);
   margin-top: var(--sp-2);
 }
 .hero-sub {
@@ -143,55 +148,141 @@
 }
 .pillar p { max-width: 40ch; color: var(--ink); }
 
-/* Réticule qui "verrouille" */
-.pillar .reticle {
+/* Fond photographique plein cadre (heure dorée) */
+.pillar:has(.pillar-media) { align-content: end; }
+.pillar-media {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -120%);
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+.pillar-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 48% at 50% 10%, rgba(255,122,47,0.14), transparent 60%),
+    linear-gradient(180deg, rgba(12,8,6,0.34) 0%, rgba(12,8,6,0) 26%, rgba(12,8,6,0.62) 64%, rgba(10,7,5,0.96) 100%);
+}
+.pillar-body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--sp-3);
+}
+.pillar-body h2 { text-shadow: 0 2px 24px rgba(0,0,0,0.6); }
+.pillar-body p { text-shadow: 0 1px 12px rgba(0,0,0,0.7); }
+.pillar .eyebrow .num { color: var(--amber); }
+
+/* Emplacement clair quand la photo n'est pas encore fournie */
+.pillar-ph {
+  position: absolute;
+  bottom: 7%; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: var(--fs-200);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  border: 1px dashed var(--line-strong);
+  border-radius: 4px;
+  padding: 3px 9px;
+  white-space: nowrap;
 }
 
-/* ---------- Plan de vol (navigation / waypoints) ---------- */
-.flightplan { padding-block: var(--section-pad-block); background: linear-gradient(180deg, var(--bg-0), #0e1a14); }
+/* ---------- Plan de vol (navigation / waypoints) — heure dorée ---------- */
+.flightplan {
+  padding-block: var(--section-pad-block);
+  background:
+    radial-gradient(90% 55% at 80% 0%, rgba(255,122,47,0.10), transparent 55%),
+    linear-gradient(180deg, var(--bg-0), #1a0f0a);
+}
 .fp-track { position: relative; padding-left: 2.4rem; }
 .fp-line {
   position: absolute;
   left: 11px; top: 0; bottom: 0;
   width: 2px;
   background: var(--line);
-  overflow: hidden;
 }
 .fp-line .fp-progress {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 0%;
-  background: linear-gradient(180deg, var(--sky), var(--hud));
+  background: linear-gradient(180deg, var(--amber), var(--ember));
+  box-shadow: 0 0 12px var(--ember-glow);
   will-change: height;
 }
+/* Repère mobile : hélico qui suit la tête de route */
+.fp-plane {
+  position: absolute;
+  left: 50%; bottom: -11px;
+  width: 22px; height: 22px;
+  transform: translateX(-50%);
+  color: var(--ember);
+  filter: drop-shadow(0 0 6px var(--ember-glow));
+}
+.fp-plane svg { width: 100%; height: 100%; }
+
 .waypoint { position: relative; padding-bottom: var(--sp-6); }
 .waypoint::before {
   content: "";
   position: absolute;
-  left: -2.4rem; top: 4px;
+  left: -2.4rem; top: 6px;
   width: 16px; height: 16px;
   margin-left: 4px;
   border-radius: 50%;
   border: 2px solid var(--steel);
   background: var(--bg-0);
+  transition: transform var(--dur-mid) var(--ease-out),
+              box-shadow var(--dur-mid) var(--ease-out),
+              border-color var(--dur-mid) var(--ease-out);
+  z-index: 1;
 }
-.waypoint.is-here::before { border-color: var(--hud); box-shadow: 0 0 0 5px rgba(200,224,138,0.18); }
-.waypoint.is-dest::before { border-color: var(--rouge-fr); background: var(--rouge-fr); }
-.waypoint .wp-code { font-family: var(--font-mono); font-size: var(--fs-200); color: var(--hud); }
-.waypoint h3 { font-size: var(--fs-500); margin-top: 2px; }
-.waypoint .wp-here {
-  display: inline-block;
+/* "Pop" du nœud à la révélation */
+.waypoint.is-in::before { animation: wp-pop var(--dur-slow) var(--ease-out) both; }
+@keyframes wp-pop { 0% { transform: scale(0.2); opacity: 0; } 60% { transform: scale(1.25); } 100% { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .waypoint.is-in::before { animation: none; } }
+
+.waypoint.is-done::before { border-color: var(--ember); background: var(--ember); box-shadow: 0 0 0 4px var(--ember-glow); }
+.waypoint.is-here::before { border-color: var(--amber); background: var(--char); box-shadow: 0 0 0 6px var(--amber-soft); }
+.waypoint.is-dest::before { border-color: var(--rouge-fr); background: var(--rouge-fr); box-shadow: 0 0 0 5px rgba(200,16,46,0.22); }
+
+/* En-tête d'étape (tap pour déplier) */
+.wp-head { position: relative; display: grid; gap: 4px; width: 100%; text-align: left; padding: 2px 18px 2px 0; }
+.wp-meta { display: flex; align-items: center; gap: var(--sp-3); }
+.wp-code { font-family: var(--font-mono); font-size: var(--fs-200); color: var(--amber); letter-spacing: 0.1em; }
+.wp-status {
   font-family: var(--font-mono);
   font-size: var(--fs-200);
-  color: var(--hud);
-  border: 1px solid rgba(200,224,138,0.4);
+  letter-spacing: 0.08em;
+  padding: 1px 7px;
   border-radius: 3px;
-  padding: 1px 6px;
-  margin-top: var(--sp-2);
+  border: 1px solid var(--line-strong);
+  color: var(--ink-dim);
 }
+.wp-status.s-done { color: var(--ember); border-color: var(--ember-glow); }
+.wp-status.s-here { color: var(--amber); border-color: rgba(255,179,92,0.5); background: var(--amber-soft); }
+.waypoint h3 { font-size: var(--fs-500); margin-top: 2px; }
+.wp-head::after {
+  content: "›";
+  position: absolute;
+  right: 0; top: 2px;
+  color: var(--ink-dim);
+  transition: transform var(--dur-mid) var(--ease-out);
+}
+.wp-head.is-open::after { transform: rotate(90deg); }
+
+/* Corps d'étape repliable */
+.wp-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-mid) var(--ease-out);
+}
+.wp-body > p { overflow: hidden; max-width: 40ch; }
+.wp-body.is-open { grid-template-rows: 1fr; padding-top: var(--sp-2); }
+@media (prefers-reduced-motion: reduce) { .wp-body { transition: none; } }
 
 /* ---------- Décollage (CTA) ---------- */
 .takeoff {
