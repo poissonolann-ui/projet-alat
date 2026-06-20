@@ -5,6 +5,7 @@
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { join, extname, normalize } from "node:path";
+import { networkInterfaces } from "node:os";
 
 const args = process.argv.slice(2);
 const rootArg = args.indexOf("--root");
@@ -58,5 +59,12 @@ createServer(async (req, res) => {
     res.writeHead(500).end("Server error");
   }
 }).listen(PORT, () => {
-  console.log(`\n  ACHIEVE → http://localhost:${PORT}  (root: ${ROOT})\n`);
+  // Adresse réseau local (pour ouvrir l'app depuis un téléphone sur le même Wi-Fi).
+  const lan = Object.values(networkInterfaces())
+    .flat()
+    .find((i) => i && i.family === "IPv4" && !i.internal);
+  console.log(`\n  ACHIEVE — serveur démarré (root: ${ROOT})\n`);
+  console.log(`  • Sur cet ordinateur : http://localhost:${PORT}`);
+  if (lan) console.log(`  • Depuis ton iPhone  : http://${lan.address}:${PORT}   (même Wi-Fi)`);
+  console.log("");
 });
