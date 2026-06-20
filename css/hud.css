@@ -1,0 +1,82 @@
+/* ============================================================
+   ACHIEVE — Couche HUD (instruments, réticule, blocs de données)
+   Vert HUD réservé aux éléments instrumentaux. Filets fins.
+   ============================================================ */
+
+.hud {
+  font-family: var(--font-mono);
+  font-size: var(--fs-200);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hud);
+}
+
+/* Bloc de données HUD (cap, FL, coordonnées) */
+.hud-block {
+  display: grid;
+  gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid rgba(200, 224, 138, 0.28);
+  border-radius: var(--radius-sm);
+  background: rgba(17, 22, 29, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.hud-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  white-space: nowrap;
+}
+.hud-row .k { color: rgba(200, 224, 138, 0.6); }
+.hud-row .v { color: var(--hud); font-weight: 500; }
+
+/* Filet d'angle décoratif (corners d'instrument) */
+.hud-corners { position: relative; }
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 14px; height: 14px;
+  border: 1px solid rgba(200, 224, 138, 0.5);
+}
+.hud-corners::before { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
+.hud-corners::after { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
+
+/* Réticule de visée (SVG inline ou ce pseudo) */
+.reticle {
+  --r-size: 56px;
+  width: var(--r-size);
+  height: var(--r-size);
+  position: relative;
+  color: var(--hud);
+}
+.reticle svg { width: 100%; height: 100%; }
+
+/* Animation de "lock" (verrouillage) */
+.reticle.is-locked svg {
+  animation: reticle-lock var(--dur-slow) var(--ease-out) both;
+}
+@keyframes reticle-lock {
+  0%   { transform: scale(1.4) rotate(-8deg); opacity: 0; }
+  60%  { transform: scale(0.94) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reticle.is-locked svg { animation: none; }
+}
+
+/* Filet de visée fin */
+.sightline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 224, 138, 0.5), transparent);
+}
+
+/* Badge de coordonnées */
+.coord {
+  font-family: var(--font-mono);
+  font-size: var(--fs-200);
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+}
+.coord strong { color: var(--hud); font-weight: 500; }

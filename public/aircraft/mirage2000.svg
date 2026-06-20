@@ -1,0 +1,8 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Silhouette Mirage 2000">
+  <g fill="currentColor">
+    <!-- pure delta -->
+    <path d="M100 12c4 0 7 7 8 18l4 60 30 56 1 10-35-16-8 14-8-14-35 16 1-10 30-56 4-60c1-11 4-18 8-18z"/>
+    <!-- tail fin -->
+    <path d="M100 150l-5 22h10z"/>
+  </g>
+</svg>

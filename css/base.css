@@ -1,0 +1,136 @@
+/* ============================================================
+   ACHIEVE — Base : reset léger, typographie, accessibilité
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-400);
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg-0);
+  min-height: 100svh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg, picture, video { display: block; max-width: 100%; }
+img { height: auto; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: none; }
+
+a { color: inherit; text-decoration: none; }
+
+/* --- Titres : Saira Semi Condensed, capitales serrées --- */
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+h1 { font-size: var(--fs-700); }
+h2 { font-size: var(--fs-600); }
+h3 { font-size: var(--fs-500); font-weight: 500; }
+
+/* --- Texte mono / data / HUD --- */
+.mono, .data {
+  font-family: var(--font-mono);
+  font-size: var(--fs-200);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-200);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.dim { color: var(--ink-dim); }
+.accent-red { color: var(--rouge-fr); }
+.accent-hud { color: var(--hud); }
+
+/* --- Layout primitives --- */
+.wrap {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+section { position: relative; }
+
+/* Espacement de section piloté par variable (évite les conflits de spécificité) */
+.section {
+  padding-block: var(--section-pad-block);
+}
+
+/* --- Accessibilité : focus clavier visible --- */
+:focus-visible {
+  outline: 2px solid var(--hud);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lien d'évitement */
+.skip-link {
+  position: absolute;
+  top: -100px; left: var(--sp-2);
+  z-index: var(--z-modal);
+  background: var(--rouge-fr);
+  color: #fff;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-sm);
+  transition: top var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus { top: var(--sp-2); }
+
+/* Cibles tactiles minimales */
+.btn, .tap { min-height: var(--touch); min-width: var(--touch); }
+
+/* --- Révélations au scroll --- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+  will-change: opacity, transform;
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
+
+/* Images lazy : ménage le rendu */
+img[loading="lazy"] { content-visibility: auto; }

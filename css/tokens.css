@@ -34,7 +34,7 @@
   --status-grey-bg:  rgba(91, 102, 117, .14);
 
   /* --- Typographie --- */
-  --font-display: "Saira SemiCondensed", "Saira Semi Condensed", system-ui, sans-serif;
+  --font-display: "Saira Semi Condensed", "Saira", system-ui, sans-serif;
   --font-body:    "Saira", system-ui, -apple-system, sans-serif;
   --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ACHIEVE">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c2530"/>
+      <stop offset="1" stop-color="#11161d"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <!-- subtle HUD ring -->
+  <circle cx="256" cy="256" r="150" fill="none" stroke="#c8e08a" stroke-opacity="0.25" stroke-width="3"/>
+  <!-- tricolor delta jet (climbing) -->
+  <g transform="translate(256 268) scale(2.1) translate(-100 -100)">
+    <path d="M100 30c5 0 8 8 9 20l4 56 28 50 1 10-33-15-9 14-9-14-33 15 1-10 28-50 4-56c1-12 4-20 9-20z" fill="#002654"/>
+    <path d="M100 30c5 0 8 8 9 20l3 44-12 0-1-44c1-12 3-20 1-20z" fill="#f4f6f9"/>
+    <path d="M100 94l-1 0 4 56 28 50 1 10-33-15z" fill="#c8102e"/>
+  </g>
+</svg>

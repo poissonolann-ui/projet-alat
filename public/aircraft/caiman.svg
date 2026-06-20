@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Silhouette NH90 Caïman">
+  <g fill="currentColor">
+    <!-- main rotor -->
+    <rect x="18" y="60" width="164" height="5" rx="2.5"/>
+    <circle cx="100" cy="62" r="7"/>
+    <!-- cabin + tail boom -->
+    <path d="M70 70c-8 6-12 18-12 34 0 14 6 24 16 28l4 22 6 0 2-20h28l2 20 6 0 4-22 18-6-2-8-16 2c1-6 1-12 0-18l30-8-2-8-30 6c-4-16-14-26-30-26-8 0-16 2-22 6z"/>
+    <!-- tail rotor -->
+    <rect x="150" y="92" width="5" height="34" rx="2.5"/>
+  </g>
+</svg>
