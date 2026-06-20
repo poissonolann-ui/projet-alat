@@ -13,7 +13,7 @@ export const aircraft = {
     pillar: "Course / VO2 / souffle",
     idea: "Vitesse, agilité",
     svg: "/aircraft/rafale.svg",
-    photo: "/aircraft/rafale-solo-climb.png",
+    photo: "/aircraft/rafale-solo-climb.webp",
     accent: "var(--rouge-fr)",
     blurb:
       "Le souffle. La vitesse pure, l'agilité dans le ciel. Ici on travaille " +

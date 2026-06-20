@@ -134,3 +134,13 @@ section { position: relative; }
 
 /* Images lazy : ménage le rendu */
 img[loading="lazy"] { content-visibility: auto; }
+
+/* Silhouettes d'appareils : rendues via mask-image pour hériter de la
+   couleur CSS (currentColor ne traverse pas un <img src=svg>).
+   --m = url(/aircraft/xxx.svg) */
+.silhouette {
+  display: block;
+  background-color: currentColor;
+  -webkit-mask: var(--m) center / contain no-repeat;
+  mask: var(--m) center / contain no-repeat;
+}
