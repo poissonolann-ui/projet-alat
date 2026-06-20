@@ -1,0 +1,99 @@
+/* ============================================================
+   ACHIEVE — Design tokens
+   Univers : aviation militaire française / ALAT
+   Tous les tokens sont centralisés ici (cf. cahier des charges §4)
+   ============================================================ */
+
+:root {
+  /* --- Palette cellule / instrument --- */
+  --airframe: #2b3440;   /* gris cellule, fonds sombres */
+  --steel:    #5b6675;   /* gris instrument */
+  --sky:      #9fc6e3;   /* ciel d'altitude */
+  --bleu-fr:  #002654;   /* bleu France */
+  --blanc-fr: #f4f6f9;
+  --rouge-fr: #c8102e;   /* rouge France, accent vif (à doser) */
+  --olive:    #3c4a32;   /* vert tactique : sections ALAT/hélico */
+  --hud:      #c8e08a;   /* vert HUD : data, réticule (parcimonieux) */
+  --ink:      #eef2f7;
+  --ink-dim:  rgba(238, 242, 247, .55);
+
+  /* --- Fonds dérivés (profondeur) --- */
+  --bg-0: #11161d;       /* fond le plus sombre */
+  --bg-1: #18202a;
+  --bg-2: var(--airframe);
+  --bg-elev: #222c38;    /* surfaces surélevées (cartes) */
+  --line: rgba(159, 198, 227, .14);   /* filets fins, esprit HUD */
+  --line-strong: rgba(159, 198, 227, .28);
+
+  /* --- Statuts calendrier (tons doux, cf. §6/§7) --- */
+  --status-done:  #4f7d52;   /* vert réalisée */
+  --status-done-bg:  rgba(79, 125, 82, .22);
+  --status-miss:  #b14a4a;   /* rouge manquée */
+  --status-miss-bg:  rgba(177, 74, 74, .20);
+  --status-grey:  #3a444f;   /* repos / à venir */
+  --status-grey-bg:  rgba(91, 102, 117, .14);
+
+  /* --- Typographie --- */
+  --font-display: "Saira SemiCondensed", "Saira Semi Condensed", system-ui, sans-serif;
+  --font-body:    "Saira", system-ui, -apple-system, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Échelle typographique fluide (clamp), mobile-first */
+  --fs-200: clamp(0.72rem, 0.70rem + 0.1vw, 0.78rem);   /* labels HUD */
+  --fs-300: clamp(0.82rem, 0.80rem + 0.1vw, 0.9rem);    /* small */
+  --fs-400: clamp(0.95rem, 0.92rem + 0.2vw, 1.05rem);   /* corps */
+  --fs-500: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --fs-600: clamp(1.5rem, 1.2rem + 1.4vw, 2.2rem);
+  --fs-700: clamp(2.1rem, 1.5rem + 3vw, 3.6rem);
+  --fs-800: clamp(3rem, 1.8rem + 6vw, 6.5rem);          /* titres hero */
+
+  /* --- Espacements (échelle 4px) --- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4.5rem;
+  --sp-9: 7rem;
+
+  /* Marge de section (gère les conflits de spécificité — toujours via variable) */
+  --section-pad-block: clamp(3.5rem, 2rem + 8vw, 7rem);
+  --gutter: clamp(1.1rem, 0.6rem + 3vw, 2.2rem);
+  --content-max: 64rem;
+
+  /* --- Rayons / élévation --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .35);
+  --shadow-2: 0 10px 30px -12px rgba(0, 0, 0, .6);
+
+  /* --- Cibles tactiles --- */
+  --touch: 44px;
+
+  /* --- Mouvement --- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur-mid: 320ms;
+  --dur-slow: 600ms;
+
+  /* z-index */
+  --z-hud: 20;
+  --z-nav: 60;
+  --z-menu: 70;
+  --z-modal: 90;
+
+  color-scheme: dark;
+}
+
+/* Coupe toutes les animations lourdes si l'utilisateur le demande */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-mid: 0ms;
+    --dur-slow: 0ms;
+  }
+}
