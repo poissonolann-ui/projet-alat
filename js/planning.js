@@ -12,7 +12,7 @@ import {
   DAY_LABELS, MONTH_LABELS, weekdayIndex,
 } from "./lib/date.js";
 
-mountHeader("Planning", "⊕ Navigation", "/today.html");
+mountHeader("Planning", "⊕ Navigation", "today.html");
 
 const VIEWS = ["Jour", "Semaine", "Mois", "6 mois", "Année"];
 let view = "Semaine";        // s'ouvre sur la semaine d'aujourd'hui
@@ -193,11 +193,11 @@ typeGrid.addEventListener("click", (e) => {
   if (t) {
     update((s) => { s.sessionTypeByDate[sheetISO] = t.dataset.type; });
     if (t.dataset.type === "rest") { closeSheet(); render(); return; }
-    location.href = `/session.html?date=${sheetISO}`;
+    location.href = `session.html?date=${sheetISO}`;
     return;
   }
   if (e.target.closest("[data-open]")) {
-    location.href = `/session.html?date=${sheetISO}`;
+    location.href = `session.html?date=${sheetISO}`;
   }
 });
 sheet.addEventListener("click", (e) => { if (e.target === sheet) closeSheet(); });

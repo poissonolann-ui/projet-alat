@@ -20,7 +20,7 @@ const timerHost = document.querySelector("[data-timer]");
 const d = fromISO(iso);
 const dateLabel = `${DAY_LABELS[weekdayIndex(d)]} ${d.getDate()} ${MONTH_LABELS[d.getMonth()]}`;
 
-mountHeader(meta.label, dateLabel, "/planning.html");
+mountHeader(meta.label, dateLabel, "planning.html");
 
 /* ---------- Niveau du jour ---------- */
 function currentLevel() {
@@ -121,7 +121,7 @@ function renderMuscle() {
     <button class="btn ${done ? "btn-hud" : "btn-primary"} btn-block" data-validate style="margin-top:var(--sp-5)">
       ${done ? "✓ Séance validée — re-valider" : "Valider la séance"}
     </button>
-    <a class="btn btn-ghost btn-block" href="/planning.html" style="margin-top:var(--sp-3)">↩ Planning</a>
+    <a class="btn btn-ghost btn-block" href="planning.html" style="margin-top:var(--sp-3)">↩ Planning</a>
   `;
   mountTimer();
 }
@@ -163,7 +163,7 @@ function renderRunning() {
     <button class="btn ${done ? "btn-hud" : "btn-primary"} btn-block" data-validate style="margin-top:var(--sp-5)">
       ${done ? "✓ Séance validée — re-valider" : "Valider la séance"}
     </button>
-    <a class="btn btn-ghost btn-block" href="/planning.html" style="margin-top:var(--sp-3)">↩ Planning</a>
+    <a class="btn btn-ghost btn-block" href="planning.html" style="margin-top:var(--sp-3)">↩ Planning</a>
   `;
   mountTimer();
 }
@@ -190,7 +190,7 @@ function renderTest() {
     </div>
     <button class="btn btn-primary btn-block" data-savetest style="margin-top:var(--sp-4)">Enregistrer le test</button>
     <p class="note" data-test-feedback></p>
-    <a class="btn btn-ghost btn-block" href="/tracking.html" style="margin-top:var(--sp-3)">Voir le suivi →</a>
+    <a class="btn btn-ghost btn-block" href="tracking.html" style="margin-top:var(--sp-3)">Voir le suivi →</a>
   `;
 
   host.querySelector("[data-savetest]").addEventListener("click", () => {
@@ -213,13 +213,13 @@ function renderRest() {
   host.innerHTML = `
     <h2 style="font-size:var(--fs-600)">Jour de repos</h2>
     <p class="dim">Récupération programmée. Hydrate, dors, marche. Le repos fait partie du plan de vol.</p>
-    <a class="btn btn-ghost btn-block" href="/planning.html" style="margin-top:var(--sp-4)">↩ Planning</a>
+    <a class="btn btn-ghost btn-block" href="planning.html" style="margin-top:var(--sp-4)">↩ Planning</a>
   `;
 }
 
 function renderUnknown() {
   host.innerHTML = `<p class="dim">Type de séance non reconnu.</p>
-    <a class="btn btn-ghost btn-block" href="/planning.html" style="margin-top:var(--sp-4)">↩ Planning</a>`;
+    <a class="btn btn-ghost btn-block" href="planning.html" style="margin-top:var(--sp-4)">↩ Planning</a>`;
 }
 
 /* ---------- Délégation d'événements (muscu) ---------- */

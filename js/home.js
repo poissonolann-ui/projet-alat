@@ -89,7 +89,7 @@ function buildPillars() {
               <circle cx="28" cy="28" r="3" fill="currentColor" stroke="none"/>
             </svg>
           </div>
-          <span class="silhouette" role="img" aria-label="Silhouette ${a.name}" data-parallax style="--m:url(${a.svg})"></span>
+          <span class="silhouette" role="img" aria-label="Silhouette ${a.name}" data-parallax style="--m:url('${new URL(a.svg, document.baseURI).href}')"></span>
         </div>
         <p class="eyebrow" data-reveal><span class="num">0${i + 1}</span> · ${a.pillar}</p>
         <p class="pillar-aircraft" data-reveal>${a.name}</p>
@@ -153,9 +153,9 @@ function loadScript(src) {
 async function initCinematic() {
   if (prefersReducedMotion()) return; // tout coupé proprement
   try {
-    await loadScript("/js/vendor/gsap.min.js");
-    await loadScript("/js/vendor/ScrollTrigger.min.js");
-    await loadScript("/js/vendor/lenis.min.js");
+    await loadScript("js/vendor/gsap.min.js");
+    await loadScript("js/vendor/ScrollTrigger.min.js");
+    await loadScript("js/vendor/lenis.min.js");
   } catch (_e) {
     return; // pas de cinématique → l'app reste pleinement utilisable
   }

@@ -20,7 +20,7 @@ const status = statusFor(iso);
 const nut = nutritionForSessionType(meta.type);
 
 const dateLabel = `${DAY_LABELS[weekdayIndex(d)]} ${d.getDate()} ${MONTH_LABELS[d.getMonth()]}`;
-const sessionHref = `/session.html?date=${iso}`;
+const sessionHref = `session.html?date=${iso}`;
 
 const statusChip = {
   done: '<span class="chip accent-hud">✓ Validée</span>',
@@ -65,13 +65,13 @@ host.innerHTML = `
       <div class="macro"><div class="v">${nut.l}</div><div class="k">Lip. g</div></div>
     </div>
     <p class="dim" style="margin-top:var(--sp-3)">${nut.kcal} kcal · objectif du jour</p>
-    <a class="btn btn-ghost btn-block" href="/nutrition.html" style="margin-top:var(--sp-3)">Détail nutrition →</a>
+    <a class="btn btn-ghost btn-block" href="nutrition.html" style="margin-top:var(--sp-3)">Détail nutrition →</a>
   </section>
 
   <nav class="stack" data-reveal style="margin-top:var(--sp-5)">
-    <a class="btn btn-block" href="/planning.html">Planning</a>
-    <a class="btn btn-block" href="/tracking.html">Suivi &amp; réglages</a>
-    <a class="btn btn-ghost btn-block" href="/index.html">↩ Retour à l'accueil</a>
+    <a class="btn btn-block" href="planning.html">Planning</a>
+    <a class="btn btn-block" href="tracking.html">Suivi &amp; réglages</a>
+    <a class="btn btn-ghost btn-block" href="index.html">↩ Retour à l'accueil</a>
   </nav>
 `;
 

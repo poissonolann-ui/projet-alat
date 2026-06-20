@@ -13,13 +13,13 @@ import { initReveals } from "./lib/motion.js";
 export function registerSW() {
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+      navigator.serviceWorker.register("service-worker.js").catch(() => {});
     });
   }
 }
 
 /* En-tête applicatif standard (titre + bouton retour). */
-export function mountHeader(title, eyebrow, backHref = "/today.html") {
+export function mountHeader(title, eyebrow, backHref = "today.html") {
   const header = document.querySelector("[data-app-header]");
   if (!header) return;
   header.classList.add("app-header");

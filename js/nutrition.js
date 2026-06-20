@@ -8,7 +8,7 @@ import { dayMeta } from "./lib/schedule.js";
 import { nutritionDays, nutritionForSessionType, supplements, nutritionAdvice } from "../data/nutrition.js";
 import { todayISO } from "./lib/date.js";
 
-mountHeader("Nutrition", "⊕ A330 MRTT · Ravitaillement", "/today.html");
+mountHeader("Nutrition", "⊕ A330 MRTT · Ravitaillement", "today.html");
 
 const host = document.querySelector("[data-nutrition]");
 const iso = todayISO();
@@ -58,7 +58,7 @@ host.innerHTML = `
     </ul>
   </div>
 
-  <a class="btn btn-ghost btn-block" href="/today.html" style="margin-top:var(--sp-5)">↩ Aujourd'hui</a>
+  <a class="btn btn-ghost btn-block" href="today.html" style="margin-top:var(--sp-5)">↩ Aujourd'hui</a>
 `;
 
 host.addEventListener("change", (e) => {

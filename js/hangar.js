@@ -7,7 +7,7 @@
 import { boot, mountHeader } from "./app.js";
 import { aircraft, pillarOrder } from "../data/aircraft.js";
 
-mountHeader("Hangar", "⊕ Galerie · pince pour zoomer", "/today.html");
+mountHeader("Hangar", "⊕ Galerie · pince pour zoomer", "today.html");
 
 const host = document.querySelector("[data-hangar]");
 
@@ -21,8 +21,8 @@ for (const id of pillarOrder) {
   });
 }
 cards.unshift(
-  { id: "photo1", accent: "rafale", name: "Rafale Solo Display", role: "Livrée tricolore · montée", src: "/aircraft/rafale-solo-climb.webp", isPhoto: true, alt: "Rafale tricolore en montée verticale" },
-  { id: "photo2", accent: "rafale", name: "Rafale Solo Display", role: "Virage · fumée tricolore", src: "/aircraft/rafale-solo-bank.webp", isPhoto: true, alt: "Rafale tricolore en virage avec fumée bleu-blanc-rouge" },
+  { id: "photo1", accent: "rafale", name: "Rafale Solo Display", role: "Livrée tricolore · montée", src: "aircraft/rafale-solo-climb.webp", isPhoto: true, alt: "Rafale tricolore en montée verticale" },
+  { id: "photo2", accent: "rafale", name: "Rafale Solo Display", role: "Virage · fumée tricolore", src: "aircraft/rafale-solo-bank.webp", isPhoto: true, alt: "Rafale tricolore en virage avec fumée bleu-blanc-rouge" },
 );
 
 host.innerHTML = `
@@ -34,7 +34,7 @@ host.innerHTML = `
         <span class="media">
           ${c.isPhoto
             ? `<img src="${c.src}" alt="${c.alt}" loading="lazy" />`
-            : `<span class="silhouette" role="img" aria-label="${c.alt}" style="--m:url(${c.src})"></span>`}
+            : `<span class="silhouette" role="img" aria-label="${c.alt}" style="--m:url('${new URL(c.src, document.baseURI).href}')"></span>`}
         </span>
         <span class="meta">
           <span class="name">${c.name}</span><br/>
@@ -42,7 +42,7 @@ host.innerHTML = `
         </span>
       </button>`).join("")}
   </div>
-  <a class="btn btn-ghost btn-block" href="/today.html" style="margin-top:var(--sp-5)">↩ Aujourd'hui</a>
+  <a class="btn btn-ghost btn-block" href="today.html" style="margin-top:var(--sp-5)">↩ Aujourd'hui</a>
 `;
 
 /* ---------------- Viewer zoomable ---------------- */
@@ -67,7 +67,7 @@ function open(i) {
     content.innerHTML = `<img src="${c.src}" alt="${c.alt}" />`;
   } else {
     content.dataset.kind = "silhouette";
-    content.innerHTML = `<span class="silhouette" role="img" aria-label="${c.alt}" style="--m:url(${c.src})"></span>`;
+    content.innerHTML = `<span class="silhouette" role="img" aria-label="${c.alt}" style="--m:url('${new URL(c.src, document.baseURI).href}')"></span>`;
   }
   scale = 1; tx = 0; ty = 0; apply(); setTransition(false);
   viewer.classList.add("is-open");

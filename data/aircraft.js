@@ -12,8 +12,8 @@ export const aircraft = {
     name: "Rafale",
     pillar: "Course / VO2 / souffle",
     idea: "Vitesse, agilité",
-    svg: "/aircraft/rafale.svg",
-    photo: "/aircraft/rafale-solo-climb.webp",
+    svg: "aircraft/rafale.svg",
+    photo: "aircraft/rafale-solo-climb.webp",
     accent: "var(--rouge-fr)",
     blurb:
       "Le souffle. La vitesse pure, l'agilité dans le ciel. Ici on travaille " +
@@ -24,7 +24,7 @@ export const aircraft = {
     name: "Mirage 2000",
     pillar: "Force / puissance",
     idea: "Héritage, solidité du delta",
-    svg: "/aircraft/mirage2000.svg",
+    svg: "aircraft/mirage2000.svg",
     photo: null,
     accent: "var(--sky)",
     blurb:
@@ -36,7 +36,7 @@ export const aircraft = {
     name: "NH90 Caïman",
     pillar: "Endurance / volume / charge",
     idea: "Porter, durer (ALAT)",
-    svg: "/aircraft/caiman.svg",
+    svg: "aircraft/caiman.svg",
     photo: null,
     accent: "var(--olive)",
     blurb:
@@ -48,7 +48,7 @@ export const aircraft = {
     name: "Tigre",
     pillar: "Mental / précision / la cible",
     idea: "Le but ALAT, viser juste",
-    svg: "/aircraft/tigre.svg",
+    svg: "aircraft/tigre.svg",
     photo: null,
     accent: "var(--hud)",
     blurb:
@@ -60,7 +60,7 @@ export const aircraft = {
     name: "A330 MRTT Phénix",
     pillar: "Nutrition",
     idea: "Ravitaillement en vol",
-    svg: "/aircraft/mrtt.svg",
+    svg: "aircraft/mrtt.svg",
     photo: null,
     accent: "var(--sky)",
     blurb:

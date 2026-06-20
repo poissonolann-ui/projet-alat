@@ -9,7 +9,7 @@ import { attendanceStats } from "./lib/schedule.js";
 import { profile } from "../data/profile.js";
 import { fromISO, toISO, todayISO } from "./lib/date.js";
 
-mountHeader("Suivi", "⊕ Débriefing & réglages", "/today.html");
+mountHeader("Suivi", "⊕ Débriefing & réglages", "today.html");
 
 const host = document.querySelector("[data-tracking]");
 
@@ -71,7 +71,7 @@ function render() {
       <p class="note" data-backup-feedback></p>
     </div>
 
-    <a class="btn btn-ghost btn-block" href="/today.html" style="margin-top:var(--sp-5)">↩ Aujourd'hui</a>
+    <a class="btn btn-ghost btn-block" href="today.html" style="margin-top:var(--sp-5)">↩ Aujourd'hui</a>
   `;
 
   wire();
