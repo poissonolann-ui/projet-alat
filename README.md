@@ -89,33 +89,28 @@ npm run preview
 > **http://** (pas en ouvrant le fichier directement) pour que le service worker et les
 > modules ES fonctionnent.
 
-### Déploiement (GitHub Pages — automatique)
+### Déploiement (GitHub Pages — depuis la branche)
 
 L'app est publiée en HTTPS sur **GitHub Pages** :
 
 > **URL publique : https://poissonolann-ui.github.io/projet-alat/**
 
-Le déploiement est **automatique** via `.github/workflows/deploy.yml` : la racine du dépôt
-(100 % statique, zéro build) est publiée à **chaque push sur `main`**.
+**Activation (une seule fois) :** sur GitHub, **Settings → Pages → Build and deployment**,
+choisis **Source : « Deploy from a branch »**, branche **`main`**, dossier **`/ (root)`**, puis
+**Save**. (Le fichier `.nojekyll` à la racine dit à GitHub de servir les fichiers tels quels,
+sans traitement Jekyll.)
 
-**Redéployer après une modification :**
+**Redéployer après une modification :** il suffit de pousser sur `main` —
+GitHub republie tout seul (~1 min).
 
 ```bash
-# 1) committe tes changements
 git add -A && git commit -m "ma modif"
-# 2) pousse sur main → le déploiement se lance tout seul
-git push origin main
+git push origin main          # → GitHub Pages se reconstruit automatiquement
 ```
 
-Suis l'avancement dans l'onglet **Actions** du dépôt (workflow « Déploiement GitHub Pages »).
-~1 min après le succès, l'URL publique sert la nouvelle version. Tu peux aussi relancer le
-déploiement à la main depuis Actions → *Run workflow*.
-
-> **Première fois ?** Le workflow active Pages tout seul (`enablement: true`). Si jamais
-> l'onglet **Settings → Pages** demande une source, choisis **« GitHub Actions »**.
-
-Tout reste statique : tu peux aussi héberger le dossier ailleurs (Netlify, Vercel, Cloudflare
-Pages, un simple serveur HTTP) — aucun backend requis.
+> Le dépôt doit être **public** (Pages privé = plan payant). Tout est statique : tu peux aussi
+> héberger le dossier ailleurs (Netlify, Vercel, Cloudflare Pages, un simple serveur HTTP) —
+> aucun backend requis.
 
 ---
 
