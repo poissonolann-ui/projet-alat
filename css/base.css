@@ -31,6 +31,19 @@ body {
 img, svg, picture, video { display: block; max-width: 100%; }
 img { height: auto; }
 
+/* --- Curseur réticule de chasse (souris uniquement ; le tactile iPhone garde
+   le comportement natif, sans curseur) --- */
+@media (hover: hover) and (pointer: fine) {
+  html, body { cursor: url("../assets/cursor-reticle.svg") 16 16, crosshair; }
+  a, button, label, summary, select, [role="button"], [data-day], [data-type],
+  [data-tab], .tab, input[type="checkbox"], input[type="radio"] {
+    cursor: url("../assets/cursor-lock.svg") 16 16, pointer;
+  }
+  input[type="text"], input[type="number"], input[type="date"], textarea {
+    cursor: text;
+  }
+}
+
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: none; }
 

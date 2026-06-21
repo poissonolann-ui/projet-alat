@@ -25,7 +25,7 @@ export const aircraft = {
     pillar: "Force / puissance",
     idea: "Héritage, solidité du delta",
     svg: "aircraft/mirage2000.svg",
-    photo: null,
+    photo: "aircraft/ref/mirage.png",
     accent: "var(--sky)",
     blurb:
       "La structure. L'aile delta, la solidité de l'héritage. On bâtit la force : " +
