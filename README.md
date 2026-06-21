@@ -23,6 +23,8 @@ une intro cinématique s'affiche une fois, puis l'app ouvre toujours directement
 - **Planning (Plan de vol)** : carte de navigation 6 mois (route + « tu es ici ») puis vues
   Jour / Semaine / Mois / 6 mois / Année. Ouvre sur aujourd'hui. Cases colorées
   (vert = réalisée, rouge = manquée, gris = repos/à venir, aujourd'hui encadré).
+  La **progression sur la route est pilotée par l'assiduité réelle** (séances réalisées /
+  prévues) : le repère avance quand tu t'entraînes et reste en arrière si tu sautes des séances.
   **Jours de travail** marquables (dispo réduite → le plan propose une séance courte/repos).
 - **Séances** :
   - **Muscu** : 3 niveaux du jour (Fatigué / En forme / Pleine forme) qui ajustent les

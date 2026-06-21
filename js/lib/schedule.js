@@ -91,6 +91,28 @@ export function attendanceStats(fromDate, toDate) {
   return { done, miss, total, pct };
 }
 
+/* Avancement de la mission piloté par l'assiduité réelle :
+   fraction = séances réalisées / séances totales prévues sur la fenêtre de prépa.
+   Comme les séances sont réparties régulièrement, un parcours assidu suit
+   naturellement le calendrier ; quand des séances sont manquées, le repère
+   reste en arrière — il reflète le travail accompli, pas le temps écoulé. */
+export function missionProgress(startDate, contestDate) {
+  const state = getState();
+  let total = 0, done = 0;
+  const cur = new Date(startDate);
+  const end = new Date(contestDate);
+  while (cur <= end) {
+    const iso = isoLocal(cur);
+    if (plannedType(iso) !== "rest") {
+      total++;
+      if (state.sessionStatus[iso] === "done") done++;
+    }
+    cur.setDate(cur.getDate() + 1);
+  }
+  const frac = total ? Math.max(0, Math.min(1, done / total)) : 0;
+  return { frac, pct: Math.round(frac * 100), done, total };
+}
+
 function isoLocal(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");

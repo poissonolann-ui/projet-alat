@@ -6,6 +6,7 @@ import { registerSW } from "./app.js";
 import { mountMenu } from "./menu.js";
 import { initReveals, prefersReducedMotion } from "./lib/motion.js";
 import { buildGauges } from "./lib/gauges.js";
+import { missionProgress } from "./lib/schedule.js";
 import { aircraft, pillarOrder, destination } from "../data/aircraft.js";
 import { profile } from "../data/profile.js";
 import { getState } from "./lib/store.js";
@@ -45,7 +46,6 @@ function buildFlightplan() {
 
   const start = fromISO(profile.prepStartDate);
   const contest = fromISO(getState().settings.contestDate || profile.contestDate);
-  const now = new Date();
 
   const waypoints = [
     { code: "WP00", title: "Départ — Base aérobie & force", desc: "Zone 2, charges de référence, on installe la routine." },
@@ -56,10 +56,10 @@ function buildFlightplan() {
     { code: "DEST", title: `${destination.label} — Sélection`, desc: `${destination.unit}. Achieve your dream.`, dest: true },
   ];
 
-  // "Tu es ici" : position relative dans la fenêtre de prépa.
-  const totalMs = contest - start;
-  const elapsed = Math.max(0, Math.min(1, (now - start) / totalMs));
-  const hereIndex = Math.min(waypoints.length - 2, Math.floor(elapsed * (waypoints.length - 1)));
+  // "Tu es ici" : position pilotée par l'assiduité réelle (séances réalisées),
+  // pas par le temps écoulé. On avance quand on s'entraîne.
+  const { frac } = missionProgress(start, contest);
+  const hereIndex = Math.min(waypoints.length - 2, Math.floor(frac * (waypoints.length - 1)));
 
   const line = host.querySelector(".fp-line");
   // Repère mobile (hélico) qui suit la tête de la progression de route.
