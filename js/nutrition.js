@@ -58,13 +58,10 @@ function render() {
     <p class="pilo-title" style="margin-top:var(--sp-2)">⊕ Ravitaillement · A330 MRTT</p>
     <h1 class="pilo-date">Réservoirs</h1>
 
-    <div class="mrtt-dock" aria-hidden="true">
-      <span class="mrtt-tanker" style="--m:url('aircraft/mrtt.svg')"></span>
-      <span class="mrtt-boom"></span>
-      <span class="mrtt-fuel"></span>
-      <span class="mrtt-receiver" style="--m:url('aircraft/caiman.svg')"></span>
-      <span class="dock-label">⊕ Arrimage · transfert</span>
-    </div>
+    <figure class="ravito-hero">
+      <img src="aircraft/ref/mrtt-phenix.jpg" alt="A330 MRTT Phénix de l'Armée de l'Air ravitaillant un chasseur en vol" loading="eager" decoding="async" />
+      <figcaption class="rh-label">⊕ Ravitaillement en vol · A330 MRTT « Phénix »</figcaption>
+    </figure>
 
     <div class="fuel-grid">
       ${tank("p", "Prot.", eaten.p, "g")}

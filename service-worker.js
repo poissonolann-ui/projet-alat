@@ -5,7 +5,7 @@
    Aucune requête tierce en usage normal.
    ============================================================ */
 
-const VERSION = "achieve-v2.0.0";
+const VERSION = "achieve-v2.1.0";
 const CACHE = VERSION;
 
 /* App shell à précacher (tout ce qu'il faut pour démarrer hors-ligne). */
@@ -40,7 +40,7 @@ const PRECACHE = [
   // Photos heure dorée (piliers)
   "./aircraft/ref/rafale-tricolore.webp", "./aircraft/ref/caiman-golden.webp",
   "./aircraft/ref/tigre-sunset.webp", "./aircraft/ref/mirage.png",
-  "./aircraft/ref/mrtt-phenix.jpg",
+  "./aircraft/ref/mrtt-phenix.jpg", "./aircraft/ref/mrtt-mirage.webp",
 
   // Curseurs réticule (souris)
   "./assets/cursor-reticle.svg", "./assets/cursor-lock.svg",

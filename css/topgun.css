@@ -364,6 +364,29 @@ body.home { background: var(--bg-app); }
 }
 .timer-bar .t-btn.primary { background: var(--ember); border-color: var(--ember); color: #fff; }
 
+/* ---------- Ravitaillement : bannière photo MRTT ---------- */
+.ravito-hero {
+  position: relative; margin: 0 0 var(--sp-4);
+  border: 1px solid var(--line-strong); border-radius: var(--radius-lg);
+  overflow: hidden; aspect-ratio: 16 / 7; background: var(--bg-1);
+}
+.ravito-hero img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 42%;
+  transform: scale(1.04); animation: hero-push 7s var(--ease-out) both;
+}
+.ravito-hero::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(90% 70% at 80% 0%, rgba(255,122,47,.14), transparent 55%),
+    linear-gradient(180deg, transparent 45%, rgba(7,8,9,.78) 100%);
+}
+.ravito-hero .rh-label {
+  position: absolute; left: var(--sp-4); bottom: var(--sp-3); z-index: 1;
+  font-family: var(--font-mono); font-size: var(--fs-200);
+  letter-spacing: .1em; text-transform: uppercase; color: var(--amber);
+  text-shadow: 0 1px 6px rgba(0,0,0,.8);
+}
+
 /* ============================================================
    SUIVI — RETEX + carte (réutilise .navmap)
    ============================================================ */
@@ -386,9 +409,10 @@ body.home { background: var(--bg-app); }
 body:has(.tabbar) .home-foot { margin-bottom: calc(72px + env(safe-area-inset-bottom)); }
 
 @media (prefers-reduced-motion: reduce) {
-  .tg-hero-media img, .tg-afterburn, .odo-tick, .intro-craft, .intro-burn, .intro-rotor,
+  .tg-hero-media img, .ravito-hero img, .tg-afterburn, .odo-tick, .intro-craft, .intro-burn, .intro-rotor,
   .chart .weight-line, .chart .pt { animation: none !important; }
   .tg-hero-media img { transform: scale(1.08); }
+  .ravito-hero img { transform: scale(1.04); }
   .chart .weight-line { stroke-dashoffset: 0; }
   .chart .pt { opacity: 1; }
   .odo-reel .odo-strip, .dial-needle, .st-fill, .dial-arc { transition: none !important; }
