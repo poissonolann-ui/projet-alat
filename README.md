@@ -89,17 +89,39 @@ npm run preview
 > **http://** (pas en ouvrant le fichier directement) pour que le service worker et les
 > modules ES fonctionnent.
 
-### Déploiement
+### Déploiement (GitHub Pages — automatique)
 
-Le dossier `/dist` (ou la racine du repo) est 100 % statique : dépose-le sur n'importe quel
-hébergeur statique (Netlify, Vercel, GitHub Pages, un simple serveur…) ou garde-le en local.
-Aucun backend.
+L'app est publiée en HTTPS sur **GitHub Pages** :
+
+> **URL publique : https://poissonolann-ui.github.io/projet-alat/**
+
+Le déploiement est **automatique** via `.github/workflows/deploy.yml` : la racine du dépôt
+(100 % statique, zéro build) est publiée à **chaque push sur `main`**.
+
+**Redéployer après une modification :**
+
+```bash
+# 1) committe tes changements
+git add -A && git commit -m "ma modif"
+# 2) pousse sur main → le déploiement se lance tout seul
+git push origin main
+```
+
+Suis l'avancement dans l'onglet **Actions** du dépôt (workflow « Déploiement GitHub Pages »).
+~1 min après le succès, l'URL publique sert la nouvelle version. Tu peux aussi relancer le
+déploiement à la main depuis Actions → *Run workflow*.
+
+> **Première fois ?** Le workflow active Pages tout seul (`enablement: true`). Si jamais
+> l'onglet **Settings → Pages** demande une source, choisis **« GitHub Actions »**.
+
+Tout reste statique : tu peux aussi héberger le dossier ailleurs (Netlify, Vercel, Cloudflare
+Pages, un simple serveur HTTP) — aucun backend requis.
 
 ---
 
 ## Installer sur iPhone (écran d'accueil, hors-ligne)
 
-1. Ouvre l'app dans **Safari** (à l'adresse où elle est hébergée, ou ton serveur local).
+1. Ouvre **https://poissonolann-ui.github.io/projet-alat/** dans **Safari** (sur ton iPhone).
 2. Touche le bouton **Partager** (carré avec une flèche vers le haut).
 3. Choisis **« Sur l'écran d'accueil »**.
 4. Valide : l'icône **ACHIEVE** (jet tricolore) apparaît sur l'écran d'accueil.
