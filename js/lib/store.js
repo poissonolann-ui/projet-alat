@@ -32,6 +32,16 @@ function defaultState() {
     levelByDate: {},
     // séries cochées : { [iso]: { [exId]: [bool, bool, ...] } }
     setsDone: {},
+    // reps notées par série : { [iso]: { [exId]: [reps, reps, ...] } }
+    setReps: {},
+    // séries ajoutées au-delà du gabarit : { [iso]: { [exId]: nbSupplément } }
+    setsExtra: {},
+    // exercices ajoutés à la volée : { [iso]: [{ id, name }] }
+    exExtra: {},
+    // pas du jour : { [iso]: nombre }
+    steps: {},
+    // RETEX hebdo (clé = lundi ISO) : { [isoLundi]: texte }
+    retex: {},
     // statut de séance par date : { [iso]: "done" } (validée)
     sessionStatus: {},
     // type de séance surchargé par date : { [iso]: "push|pull|..." }

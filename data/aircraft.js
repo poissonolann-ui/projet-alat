@@ -81,3 +81,23 @@ export const destination = {
   aircraft: ["tigre", "caiman"],
   label: "ALAT",
 };
+
+/* ============================================================
+   Association SÉANCE → AÉRONEF (intro animée du Pilotage).
+   kind : "jet" → post-combustion · "helo" → virage + souffle rotor.
+   svg  : silhouette utilisée pour l'intro.
+   ============================================================ */
+export const sessionAircraft = {
+  course: { id: "rafale",     name: "Rafale",             kind: "jet",  svg: "aircraft/rafale.svg",      line: "Vitesse pure" },
+  pull:   { id: "caiman",     name: "NH90 Caïman",        kind: "helo", svg: "aircraft/caiman.svg",      line: "Corde lisse" },
+  push:   { id: "tigre",      name: "Tigre",              kind: "helo", svg: "aircraft/tigre.svg",       line: "La frappe" },
+  legs:   { id: "a400m",      name: "A400M Atlas",        kind: "jet",  svg: "aircraft/a400m.svg",       line: "Porter la mission" },
+  upper:  { id: "mirage",     name: "Mirage 2000",        kind: "jet",  svg: "aircraft/mirage2000.svg",  line: "Précision delta" },
+  lower:  { id: "mrtt",       name: "A330 MRTT",          kind: "jet",  svg: "aircraft/mrtt.svg",        line: "Endurance de masse" },
+  test:   { id: "rafalesolo", name: "Rafale Solo Display", kind: "jet", svg: "aircraft/rafale-solo.svg", line: "Vol de démonstration" },
+  rest:   { id: "rtb",        name: "RTB",                kind: "helo", svg: "aircraft/caiman.svg",      line: "Retour à la base" },
+};
+
+export function aircraftForType(type) {
+  return sessionAircraft[type] || sessionAircraft.course;
+}

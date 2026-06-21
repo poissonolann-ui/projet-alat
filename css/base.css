@@ -68,8 +68,8 @@ img { height: auto; }
   will-change: transform, opacity;
 }
 .hud-cursor {
-  width: 64px; height: 64px;
-  margin: -32px 0 0 -32px;          /* centre le réticule sur le pointeur */
+  width: 44px; height: 44px;
+  margin: -22px 0 0 -22px;           /* réticule réduit, centré sur le pointeur */
   color: var(--hud);
   transition: opacity var(--dur-mid) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
@@ -77,8 +77,9 @@ img { height: auto; }
 
 .hud-cursor__svg {
   display: block;
+  width: 100%; height: 100%;
   overflow: visible;
-  filter: drop-shadow(0 0 5px rgba(200, 224, 138, 0.55));
+  filter: drop-shadow(0 0 4px rgba(200, 224, 138, 0.6));
 }
 .hud-cursor__glow {
   position: absolute; inset: 16px;
@@ -97,15 +98,17 @@ img { height: auto; }
               transform var(--dur-fast) var(--ease-out);
 }
 
-/* Point laser secondaire (traine molle). */
+/* Point laser secondaire (traîne molle → visée laser robotique). */
 .hud-cursor__trail {
-  width: 10px; height: 10px;
-  margin: -5px 0 0 -5px;
+  width: 7px; height: 7px;
+  margin: -3.5px 0 0 -3.5px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 224, 138, 0.9), rgba(200, 224, 138, 0) 65%);
+  background: radial-gradient(circle, rgba(200, 224, 138, 1), rgba(200, 224, 138, 0) 65%);
+  box-shadow: 0 0 8px 2px rgba(200, 224, 138, 0.5);
   transition: opacity var(--dur-mid) var(--ease-out), background var(--dur-fast) var(--ease-out);
 }
-.hud-cursor__trail.is-on { opacity: 0.5; }
+.hud-cursor__trail.is-on { opacity: 0.65; }
+.hud-cursor__trail.is-hot { background: radial-gradient(circle, var(--ember), rgba(255,122,47,0) 65%); box-shadow: 0 0 8px 2px var(--ember-glow); }
 
 /* Survol d'une cible interactive → ambre + crochets sortis. */
 .hud-cursor.is-hot { color: var(--amber); }

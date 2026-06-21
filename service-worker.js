@@ -5,27 +5,27 @@
    Aucune requête tierce en usage normal.
    ============================================================ */
 
-const VERSION = "achieve-v1.6.0";
+const VERSION = "achieve-v2.0.0";
 const CACHE = VERSION;
 
 /* App shell à précacher (tout ce qu'il faut pour démarrer hors-ligne). */
 const PRECACHE = [
   "./", "./index.html",
   "./today.html", "./planning.html", "./session.html",
-  "./nutrition.html", "./hangar.html", "./tracking.html",
+  "./nutrition.html", "./tracking.html",
   "./manifest.webmanifest",
 
   // CSS
   "./css/tokens.css", "./css/fonts.css", "./css/base.css",
-  "./css/hud.css", "./css/app.css", "./css/home.css",
+  "./css/hud.css", "./css/app.css", "./css/home.css", "./css/topgun.css",
 
   // JS libs
   "./js/lib/store.js", "./js/lib/pace.js", "./js/lib/date.js",
   "./js/lib/schedule.js", "./js/lib/motion.js", "./js/lib/gauges.js",
-  "./js/lib/cursor.js",
-  "./js/app.js", "./js/menu.js", "./js/home.js",
+  "./js/lib/cursor.js", "./js/lib/dials.js", "./js/lib/intro.js",
+  "./js/app.js", "./js/home.js",
   "./js/planning.js", "./js/session.js", "./js/today.js",
-  "./js/nutrition.js", "./js/tracking.js", "./js/hangar.js",
+  "./js/nutrition.js", "./js/tracking.js",
 
   // Données
   "./data/profile.js", "./data/exercises.js", "./data/weekTemplate.js",
@@ -34,6 +34,7 @@ const PRECACHE = [
   // Silhouettes & visuels
   "./aircraft/rafale.svg", "./aircraft/mirage2000.svg",
   "./aircraft/caiman.svg", "./aircraft/tigre.svg", "./aircraft/mrtt.svg",
+  "./aircraft/a400m.svg", "./aircraft/rafale-solo.svg",
   "./aircraft/rafale-solo-climb.webp", "./aircraft/rafale-solo-bank.webp",
 
   // Photos heure dorée (piliers)

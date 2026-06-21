@@ -1,0 +1,16 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Silhouette Rafale Solo Display">
+  <g fill="currentColor">
+    <!-- nez + fuselage -->
+    <path d="M100 18c4 0 6 10 6.5 26l1.2 60 1 40c0 8-1.5 16-4.7 22h-8c-3.2-6-4.7-14-4.7-22l1-40 1.2-60C94 28 96 18 100 18z"/>
+    <!-- canards -->
+    <path d="M104 64l24 8c2 .7 2 3.6 0 4l-22 2z"/>
+    <path d="M96 64L72 72c-2 .7-2 3.6 0 4l22 2z"/>
+    <!-- aile delta droite -->
+    <path d="M105 96l66 40c2.4 1.5 1 4.8-1.7 4.2l-64-14z"/>
+    <!-- aile delta gauche -->
+    <path d="M95 96L29 136c-2.4 1.5-1 4.8 1.7 4.2l64-14z"/>
+    <!-- dérive -->
+    <path d="M97 150l-7 26h6l4-12z"/>
+    <path d="M103 150l7 26h-6l-4-12z"/>
+  </g>
+</svg>

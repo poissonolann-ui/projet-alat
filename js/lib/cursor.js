@@ -2,7 +2,7 @@
    ACHIEVE — Curseur HUD « visière de casque de chasse »
    Un réticule de visée suit la souris ET le doigt (tactile),
    avec un léger glissé facon pointeur laser + verrouillage à l'appui.
-   Point d'injection unique : appelé depuis mountMenu() (toutes les pages).
+   Point d'injection unique : appelé depuis mountChrome() (toutes les pages).
    ============================================================ */
 
 import { prefersReducedMotion } from "./motion.js";
@@ -88,10 +88,12 @@ export function mountCursor() {
     touch = e.pointerType === "touch";
     move(e.clientX, e.clientY);
     root.classList.add("is-lock");
+    trail.classList.add("is-hot");
   }, { passive: true });
 
   addEventListener("pointerup", () => {
     root.classList.remove("is-lock");
+    if (!root.classList.contains("is-hot")) trail.classList.remove("is-hot");
     if (touch) fadeLater(1000);
   }, { passive: true });
 
@@ -113,6 +115,7 @@ export function mountCursor() {
       "a, button, label, summary, select, [role=button], input, textarea, [data-day], [data-type], [data-nav], [data-navmonth], .wp-head"
     );
     root.classList.toggle("is-hot", !!hot);
+    trail.classList.toggle("is-hot", !!hot);
   });
 
   // Activé seulement maintenant : on masque alors le curseur natif (desktop).

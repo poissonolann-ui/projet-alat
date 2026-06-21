@@ -1,0 +1,18 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Silhouette A400M Atlas">
+  <g fill="currentColor">
+    <!-- fuselage -->
+    <path d="M96 24c3 0 5 6 5.4 16l1 70 .6 34c0 6-1 12-3 16h-4c-2-4-3-10-3-16l.6-34 1-70C92 30 93 24 96 24z"/>
+    <!-- aile haute droite + 2 turbopropulseurs -->
+    <path d="M101 70l78 16c3 .6 3 5 0 5.6l-78 9z"/>
+    <rect x="132" y="74" width="13" height="6" rx="2"/>
+    <rect x="152" y="78" width="13" height="6" rx="2"/>
+    <!-- aile haute gauche + 2 turbopropulseurs -->
+    <path d="M91 70L13 86c-3 .6-3 5 0 5.6l78 9z"/>
+    <rect x="55" y="74" width="13" height="6" rx="2"/>
+    <rect x="35" y="78" width="13" height="6" rx="2"/>
+    <!-- empennage en T -->
+    <path d="M96 150l34 10c2 .5 2 4 0 4.4l-34 4z"/>
+    <path d="M96 150L62 160c-2 .5-2 4 0 4.4l34 4z"/>
+    <rect x="93" y="150" width="6" height="22" rx="2"/>
+  </g>
+</svg>

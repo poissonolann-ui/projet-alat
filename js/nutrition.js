@@ -1,26 +1,24 @@
 /* ============================================================
-   ACHIEVE — Nutrition (A330 MRTT · ravitaillement en vol)
+   ACHIEVE — RAVITAILLEMENT (A330 MRTT)
+   Réservoirs INDÉPENDANTS et animés (eau en litres, protéines,
+   glucides, lipides) qui se remplissent au log. Pas de checklist.
    ============================================================ */
 
-import { boot, mountHeader } from "./app.js";
+import { boot } from "./app.js";
 import { getState, update } from "./lib/store.js";
 import { dayMeta } from "./lib/schedule.js";
-import { nutritionDays, nutritionForSessionType, supplements, nutritionAdvice } from "../data/nutrition.js";
+import { nutritionDays, nutritionForSessionType } from "../data/nutrition.js";
 import { todayISO } from "./lib/date.js";
-
-mountHeader("Nutrition", "⊕ A330 MRTT · Ravitaillement", "today.html");
 
 const host = document.querySelector("[data-nutrition]");
 const iso = todayISO();
 const meta = dayMeta(iso);
 const today = nutritionForSessionType(meta.type);
 
-// Cibles du jour (g / g / g / mL) et pas de log par tap.
 const TARGET = { p: today.p, g: today.g, l: today.l, water: 3000 };
 const STEP = { p: 20, g: 30, l: 10, water: 250 };
 
-/* Réservoir de carburant qui se remplit selon l'apport loggé.
-   Fournit aussi la donnée brute pour le design : % atteint par macro. */
+/* Réservoir indépendant : se remplit selon l'apport loggé. */
 function tank(key, label, eaten, unit, mod = "") {
   const target = TARGET[key];
   const pct = Math.min(100, Math.round((eaten / target) * 100));
@@ -39,11 +37,10 @@ function tank(key, label, eaten, unit, mod = "") {
     </div>`;
 }
 
-/* Carte « journée type » (macros en chiffres). */
-function macroCard(n) {
+function macroCard(n, active) {
   return `
-    <div class="card">
-      <p class="eyebrow">${n.label}</p>
+    <div class="card" ${active ? 'style="border-color:var(--ember)"' : ""}>
+      <p class="eyebrow" ${active ? 'style="color:var(--amber)"' : ""}>${n.label}${active ? " · aujourd'hui" : ""}</p>
       <p class="kcal-big">${n.kcal} <span class="g-lbl">kcal</span></p>
       <div class="macro-grid" style="margin-top:var(--sp-3)">
         <div class="macro"><div class="v">${n.p}</div><div class="k">Prot. g</div></div>
@@ -54,21 +51,13 @@ function macroCard(n) {
 }
 
 function render() {
-  const state = getState();
-  const checks = state.nutritionChecks[iso] || {};
-  const i = state.intake[iso] || {};
+  const i = getState().intake[iso] || {};
   const eaten = { p: i.p || 0, g: i.g || 0, l: i.l || 0, water: i.water || 0 };
 
-  const checklist = supplements
-    .filter((s) => s.id !== "hydration")
-    .map((s) =>
-      `<li><label>
-         <input type="checkbox" data-supp="${s.id}" ${checks[s.id] ? "checked" : ""} />
-         <span>${s.label}${s.note ? ` <span class="dim mono">— ${s.note}</span>` : ""}</span>
-       </label></li>`
-    ).join("");
-
   host.innerHTML = `
+    <p class="pilo-title" style="margin-top:var(--sp-2)">⊕ Ravitaillement · A330 MRTT</p>
+    <h1 class="pilo-date">Réservoirs</h1>
+
     <div class="mrtt-dock" aria-hidden="true">
       <span class="mrtt-tanker" style="--m:url('aircraft/mrtt.svg')"></span>
       <span class="mrtt-boom"></span>
@@ -77,58 +66,35 @@ function render() {
       <span class="dock-label">⊕ Arrimage · transfert</span>
     </div>
 
-    <p class="dim">Sans carburant, pas de mission. Logge tes apports — les réservoirs se remplissent (${today.label.toLowerCase()}).</p>
-
-    <h2 class="section-title" style="margin-top:var(--sp-5)">Réservoirs du jour</h2>
     <div class="fuel-grid">
       ${tank("p", "Prot.", eaten.p, "g")}
       ${tank("g", "Gluc.", eaten.g, "g")}
       ${tank("l", "Lip.", eaten.l, "g")}
       ${tank("water", "Eau", eaten.water, "L", "tank--water")}
     </div>
-    <p class="mono dim" style="text-align:center;margin-top:var(--sp-3)">Cible ${today.label.toLowerCase()} · ${today.kcal} kcal · P${today.p} G${today.g} L${today.l}</p>
+    <p class="mono dim" style="text-align:center;margin-top:var(--sp-3)">${today.label} · ${today.kcal} kcal · P${today.p} G${today.g} L${today.l}</p>
 
-    <h2 class="section-title" style="margin-top:var(--sp-6)">Checklist compléments</h2>
-    <ul class="check-list">${checklist}</ul>
-
-    <h2 class="section-title" style="margin-top:var(--sp-6)">Les 3 journées types</h2>
+    <h2 class="section-title" style="margin-top:var(--sp-6)">Journées types</h2>
     <div class="stack">
-      ${macroCard(nutritionDays.muscu)}
-      ${macroCard(nutritionDays.course)}
-      ${macroCard(nutritionDays.repos)}
-    </div>
-
-    <h2 class="section-title" style="margin-top:var(--sp-6)">Briefing carburant</h2>
-    <div class="card">
-      <ul style="margin:0;padding-left:1.1rem;display:grid;gap:var(--sp-3)">
-        ${nutritionAdvice.map((a) => `<li>${a}</li>`).join("")}
-      </ul>
+      ${macroCard(nutritionDays.muscu, today.id === "muscu")}
+      ${macroCard(nutritionDays.course, today.id === "course")}
+      ${macroCard(nutritionDays.repos, today.id === "repos")}
     </div>
   `;
 
-  // Remplissage animé des réservoirs (0 → niveau loggé).
+  // Remplissage indépendant et animé de chaque réservoir.
   requestAnimationFrame(() => {
     host.querySelectorAll("[data-fill]").forEach((n) => { n.style.height = n.dataset.p; });
   });
 }
 
-host.addEventListener("change", (e) => {
-  const c = e.target.closest("[data-supp]");
-  if (!c) return;
-  update((s) => {
-    s.nutritionChecks[iso] = s.nutritionChecks[iso] || {};
-    s.nutritionChecks[iso][c.dataset.supp] = c.checked;
-  });
-});
-
 host.addEventListener("click", (e) => {
   const b = e.target.closest("[data-intake]");
   if (!b) return;
-  const key = b.dataset.intake;
-  const d = Number(b.dataset.d);
+  const key = b.dataset.intake, dd = Number(b.dataset.d);
   update((s) => {
     s.intake[iso] = s.intake[iso] || {};
-    s.intake[iso][key] = Math.max(0, (s.intake[iso][key] || 0) + d);
+    s.intake[iso][key] = Math.max(0, (s.intake[iso][key] || 0) + dd);
   });
   render();
 });
