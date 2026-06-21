@@ -6,6 +6,7 @@
 import { boot, mountHeader } from "./app.js";
 import { getState, update, exportJSON, importJSON, resetAll, storageAvailable } from "./lib/store.js";
 import { attendanceStats } from "./lib/schedule.js";
+import { buildGauges } from "./lib/gauges.js";
 import { profile } from "../data/profile.js";
 import { fromISO, toISO, todayISO } from "./lib/date.js";
 
@@ -26,7 +27,11 @@ function render() {
   host.innerHTML = `
     ${!storageAvailable ? `<div class="warn" style="margin-bottom:var(--sp-4)">⚠ Stockage local indisponible (navigation privée ?) : tes données ne seront pas conservées entre les sessions.</div>` : ""}
 
-    <h2 class="section-title">Assiduité</h2>
+    <h2 class="section-title">Jauges des 3 objectifs</h2>
+    <div class="gauges" data-gauges></div>
+    <p class="note">Fais un <strong>Test</strong> (depuis le Planning) pour enregistrer une nouvelle mesure : la jauge progressera de la valeur précédente à l'actuelle.</p>
+
+    <h2 class="section-title" style="margin-top:var(--sp-6)">Assiduité</h2>
     <div class="macro-grid">
       <div class="macro"><div class="v accent-hud">${stats.done}</div><div class="k">réalisées</div></div>
       <div class="macro"><div class="v accent-red">${stats.miss}</div><div class="k">manquées</div></div>
@@ -75,6 +80,7 @@ function render() {
   `;
 
   wire();
+  buildGauges("[data-gauges]");
 }
 
 /* Courbe SVG simple (transform/opacity-free, pur SVG). */

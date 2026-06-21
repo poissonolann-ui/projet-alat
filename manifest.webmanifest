@@ -4,7 +4,7 @@
   "description": "Préparation physique pilote ALAT — poste de pilotage personnel.",
   "lang": "fr",
   "dir": "ltr",
-  "start_url": "index.html",
+  "start_url": "today.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

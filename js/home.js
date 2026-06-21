@@ -4,90 +4,12 @@
 
 import { registerSW } from "./app.js";
 import { mountMenu } from "./menu.js";
-import { initReveals, prefersReducedMotion, animateValue } from "./lib/motion.js";
+import { initReveals, prefersReducedMotion } from "./lib/motion.js";
+import { buildGauges } from "./lib/gauges.js";
 import { aircraft, pillarOrder, destination } from "../data/aircraft.js";
-import { goals, profile } from "../data/profile.js";
+import { profile } from "../data/profile.js";
 import { getState } from "./lib/store.js";
 import { daysUntil, fromISO, MONTH_LABELS } from "./lib/date.js";
-
-/* ---------- Helpers de format ---------- */
-function fmtGoal(g, v) {
-  if (g.format === "time") {
-    const m = Math.floor(v / 60), s = Math.round(v % 60);
-    return `${m}’${String(s).padStart(2, "0")}`;
-  }
-  if (g.format === "dec") return v.toFixed(1);
-  return Math.round(v).toString();
-}
-
-/* Interpolation couleur rouge → vert HUD selon le ratio d'atteinte. */
-function mixColor(ratio) {
-  const a = [200, 16, 46];   // rouge-fr
-  const b = [200, 224, 138]; // hud
-  const t = Math.max(0, Math.min(1, ratio));
-  const c = a.map((x, i) => Math.round(x + (b[i] - x) * t));
-  return `rgb(${c[0]},${c[1]},${c[2]})`;
-}
-
-/* ---------- Jauges-instruments (cadrans SVG) ---------- */
-function buildGauges() {
-  const host = document.querySelector("[data-gauges]");
-  if (!host) return;
-  const state = getState();
-  // Valeurs courantes éventuellement mises à jour par les tests.
-  const lastTest = state.tests[state.tests.length - 1];
-
-  host.innerHTML = goals.map((g) => {
-    const start = g.value;            // valeur de départ (référence)
-    let cur = g.value;                // valeur actuelle (maj par les tests)
-    if (lastTest) {
-      if (g.id === "pullups" && lastTest.pullupsMax != null) cur = lastTest.pullupsMax;
-      if (g.id === "wallsit" && lastTest.wallsitS != null) cur = lastTest.wallsitS;
-    }
-    const ratio = Math.max(0, Math.min(1, cur / g.target));            // atteinte absolue → arc
-    const span = g.target - start;
-    const prog = span > 0 ? Math.max(0, Math.min(1, (cur - start) / span)) : 1; // progrès relatif → trajectoire
-    const L = 131.95; // longueur du demi-cercle r=42
-    const color = mixColor(ratio);
-    return `
-      <div class="gauge" data-gauge data-ratio="${ratio}" data-start="${start}" data-cur="${cur}" data-fmt="${g.format}">
-        <svg viewBox="0 0 100 64" aria-hidden="true">
-          <path class="gauge-arc-bg" d="M8 50 A42 42 0 0 1 92 50"/>
-          <path class="gauge-arc-fg" d="M8 50 A42 42 0 0 1 92 50"
-                stroke="${color}" stroke-dasharray="${L}" stroke-dashoffset="${L}"
-                data-len="${L}" data-target-offset="${L * (1 - ratio)}"/>
-        </svg>
-        <div class="g-val"><span data-counter>${fmtGoal(g, start)}</span> <span class="g-lbl">/ ${fmtGoal(g, g.target)}</span></div>
-        <div class="g-lbl">${g.label}</div>
-        <div class="g-traj" style="--p:0%">
-          <span class="g-traj-fill" data-traj data-p="${(prog * 100).toFixed(1)}%"></span>
-          <span class="g-traj-knob" data-knob data-p="${(prog * 100).toFixed(1)}%"></span>
-        </div>
-        <div class="g-ends"><span>${fmtGoal(g, start)}</span><span>${fmtGoal(g, g.target)}</span></div>
-      </div>`;
-  }).join("");
-
-  // Animation à l'apparition : balayage d'arc + compteur qui défile + trajectoire.
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      const el = e.target;
-      el.querySelectorAll(".gauge-arc-fg").forEach((arc) => {
-        requestAnimationFrame(() => { arc.style.strokeDashoffset = arc.dataset.targetOffset; });
-      });
-      el.querySelectorAll("[data-traj],[data-knob]").forEach((n) => {
-        requestAnimationFrame(() => { n.style.setProperty(n.hasAttribute("data-knob") ? "left" : "width", n.dataset.p); });
-      });
-      // Compteur : défile de la valeur de départ → valeur actuelle.
-      const cnt = el.querySelector("[data-counter]");
-      const start = Number(el.dataset.start), cur = Number(el.dataset.cur), fmt = el.dataset.fmt;
-      const g = { format: fmt };
-      animateValue(start, cur, 1100, (v) => { cnt.textContent = fmtGoal(g, v); });
-      io.unobserve(el);
-    });
-  }, { threshold: 0.4 });
-  host.querySelectorAll("[data-gauge]").forEach((el) => io.observe(el));
-}
 
 /* ---------- Piliers / appareils ---------- */
 function buildPillars() {
@@ -255,7 +177,7 @@ async function initCinematic() {
 /* ---------- Boot ---------- */
 registerSW();
 mountMenu();
-buildGauges();
+buildGauges("[data-gauges]");
 buildPillars();
 buildFlightplan();
 initReveals();

@@ -6,7 +6,7 @@
 
 import { boot, mountHeader } from "./app.js";
 import { update, getState } from "./lib/store.js";
-import { dayMeta, statusFor, isToday, labelForType } from "./lib/schedule.js";
+import { dayMeta, statusFor, isToday, labelForType, isWorkDay } from "./lib/schedule.js";
 import { profile } from "../data/profile.js";
 import { destination } from "../data/aircraft.js";
 import {
@@ -39,12 +39,12 @@ function dayRow(iso) {
   const m = dayMeta(iso);
   const st = statusFor(iso);
   const d = fromISO(iso);
-  const cls = `is-${st}` + (isToday(iso) ? " is-today" : "");
+  const cls = `is-${st}` + (isToday(iso) ? " is-today" : "") + (isWorkDay(iso) ? " is-work" : "");
   const chipColor = st === "done" ? "accent-hud" : st === "miss" ? "accent-red" : "dim";
   return `
     <button class="day-row ${cls}" data-day="${iso}">
       <span class="date">${DAY_LABELS[weekdayIndex(d)]} ${d.getDate()}</span>
-      <span class="name">${m.label}</span>
+      <span class="name">${m.label}${isWorkDay(iso) ? ' <span class="work-badge">travail</span>' : ""}</span>
       <span class="chip ${chipColor}">${chipText(st, m)}</span>
     </button>`;
 }
@@ -92,7 +92,7 @@ function renderMonth() {
   const dow = DAY_LABELS.map((d) => `<div class="dow">${d[0]}</div>`).join("");
   const grid = cells.map((c) => {
     const st = statusFor(c.iso);
-    const cls = `month-cell is-${st}` + (c.inMonth ? "" : " out") + (isToday(c.iso) ? " is-today" : "");
+    const cls = `month-cell is-${st}` + (c.inMonth ? "" : " out") + (isToday(c.iso) ? " is-today" : "") + (isWorkDay(c.iso) ? " is-work" : "");
     return `<button class="${cls}" data-day="${c.iso}">${fromISO(c.iso).getDate()}</button>`;
   }).join("");
   calEl.innerHTML = `
@@ -216,6 +216,7 @@ function openSheet(iso) {
   sheetDate.textContent = `${DAY_LABELS[weekdayIndex(d)]} ${d.getDate()} ${MONTH_LABELS[d.getMonth()]} · actuellement : ${m.label}`;
   typeGrid.innerHTML =
     SESSION_TYPES.map((t) => `<button data-type="${t}">${labelForType(t)}</button>`).join("") +
+    `<button class="${isWorkDay(iso) ? "work-on" : ""}" style="grid-column:1/-1" data-toggle-work>${isWorkDay(iso) ? "✓ Jour de travail (dispo réduite)" : "💼 Marquer jour de travail"}</button>` +
     `<button class="btn-primary" style="grid-column:1/-1" data-open>Ouvrir la séance →</button>`;
   sheet.classList.add("is-open");
   sheet.setAttribute("aria-hidden", "false");
@@ -243,6 +244,15 @@ calEl.addEventListener("click", (e) => {
 });
 
 typeGrid.addEventListener("click", (e) => {
+  if (e.target.closest("[data-toggle-work]")) {
+    update((s) => {
+      if (s.workDays[sheetISO]) delete s.workDays[sheetISO];
+      else s.workDays[sheetISO] = true;
+    });
+    openSheet(sheetISO); // rafraîchit le libellé du bouton
+    render();            // rafraîchit le marquage calendrier
+    return;
+  }
   const t = e.target.closest("[data-type]");
   if (t) {
     update((s) => { s.sessionTypeByDate[sheetISO] = t.dataset.type; });

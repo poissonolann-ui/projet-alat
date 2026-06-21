@@ -188,6 +188,10 @@ function renderTest() {
       <label for="ws">Chaise / wall sit (secondes)</label>
       <input id="ws" type="number" inputmode="numeric" placeholder="ex : 140" value="${last.wallsitS || ""}" />
     </div>
+    <div class="field">
+      <label for="ll">Luc Léger (palier atteint)</label>
+      <input id="ll" type="number" step="0.5" inputmode="decimal" placeholder="ex : 7.5" value="${last.lucleger || ""}" />
+    </div>
     <button class="btn btn-primary btn-block" data-savetest style="margin-top:var(--sp-4)">Enregistrer le test</button>
     <p class="note" data-test-feedback></p>
     <a class="btn btn-ghost btn-block" href="tracking.html" style="margin-top:var(--sp-3)">Voir le suivi →</a>
@@ -197,9 +201,10 @@ function renderTest() {
     const hc = Number(host.querySelector("#hc").value) || null;
     const pu = Number(host.querySelector("#pu").value) || null;
     const ws = Number(host.querySelector("#ws").value) || null;
+    const ll = Number(host.querySelector("#ll").value) || null;
     const vma = hc ? vmaFromHalfCooper(hc) : null;
     update((s) => {
-      s.tests.push({ iso, halfCooperM: hc, pullupsMax: pu, wallsitS: ws, vma });
+      s.tests.push({ iso, halfCooperM: hc, pullupsMax: pu, wallsitS: ws, lucleger: ll, vma });
       if (vma) s.settings.vma = vma;
       s.sessionStatus[iso] = "done";
     });

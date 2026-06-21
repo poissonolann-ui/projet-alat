@@ -5,7 +5,7 @@
    Aucune requête tierce en usage normal.
    ============================================================ */
 
-const VERSION = "achieve-v1.2.0";
+const VERSION = "achieve-v1.3.0";
 const CACHE = VERSION;
 
 /* App shell à précacher (tout ce qu'il faut pour démarrer hors-ligne). */
@@ -21,7 +21,7 @@ const PRECACHE = [
 
   // JS libs
   "./js/lib/store.js", "./js/lib/pace.js", "./js/lib/date.js",
-  "./js/lib/schedule.js", "./js/lib/motion.js",
+  "./js/lib/schedule.js", "./js/lib/motion.js", "./js/lib/gauges.js",
   "./js/app.js", "./js/menu.js", "./js/home.js",
   "./js/planning.js", "./js/session.js", "./js/today.js",
   "./js/nutrition.js", "./js/tracking.js", "./js/hangar.js",

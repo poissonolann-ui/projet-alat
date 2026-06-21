@@ -578,3 +578,27 @@ body:has(.tabbar) .page { padding-bottom: calc(var(--sp-9) + env(safe-area-inset
 }
 .nm-foot { display: flex; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-4); font-family: var(--font-mono); font-size: var(--fs-200); color: var(--ink-dim); }
 .nm-foot .here-name { color: var(--amber); }
+
+/* ---------- Apport alimentaire : steppers de réservoir ---------- */
+.tank-ctrl { display: flex; justify-content: center; gap: var(--sp-2); margin-top: var(--sp-2); }
+.tank-ctrl button {
+  width: 34px; height: 34px;
+  border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  color: var(--ink); font-size: var(--fs-500); line-height: 1;
+  display: grid; place-items: center;
+}
+.tank--water .tank-ctrl button { color: var(--sky); }
+
+/* ---------- Jours de travail (planning) ---------- */
+.work-badge {
+  font-family: var(--font-mono); font-size: 0.56rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--amber); border: 1px solid rgba(255,179,92,.4);
+  border-radius: 3px; padding: 0 5px; margin-left: var(--sp-2);
+}
+.day-row.is-work { border-style: dashed; }
+.month-cell.is-work::after {
+  content: ""; position: absolute; top: 3px; right: 3px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--amber);
+}
+.type-grid [data-toggle-work].work-on { border-color: var(--amber); color: var(--amber); }

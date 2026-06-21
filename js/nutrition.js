@@ -15,16 +15,27 @@ const iso = todayISO();
 const meta = dayMeta(iso);
 const today = nutritionForSessionType(meta.type);
 
-const WATER_TARGET = 3000; // mL (~3 L), cf. hydratation
-const WATER_STEP = 250;
+// Cibles du jour (g / g / g / mL) et pas de log par tap.
+const TARGET = { p: today.p, g: today.g, l: today.l, water: 3000 };
+const STEP = { p: 20, g: 30, l: 10, water: 250 };
 
-/* Réservoir de carburant (cockpit/fuel) qui se remplit. */
-function tank(label, val, unit, fillPct, mod = "") {
+/* Réservoir de carburant qui se remplit selon l'apport loggé.
+   Fournit aussi la donnée brute pour le design : % atteint par macro. */
+function tank(key, label, eaten, unit, mod = "") {
+  const target = TARGET[key];
+  const pct = Math.min(100, Math.round((eaten / target) * 100));
+  const disp = key === "water" ? (eaten / 1000).toFixed(2).replace(".", ",") : eaten;
+  const tdisp = key === "water" ? "3 L" : `${target} g`;
   return `
     <div class="tank ${mod}">
-      <div class="tank-cyl"><span class="tank-grad"></span><span class="tank-liquid" data-fill data-p="${fillPct}%"></span></div>
-      <div class="tank-val">${val}<span class="tank-k"> ${unit}</span></div>
-      <div class="tank-k">${label}</div>
+      <div class="tank-cyl"><span class="tank-grad"></span><span class="tank-liquid" data-fill data-p="${pct}%"></span></div>
+      <div class="tank-val">${disp}<span class="tank-k"> ${unit}</span></div>
+      <div class="tank-k">${label} · ${pct}%</div>
+      <div class="tank-k" style="opacity:.65">/ ${tdisp}</div>
+      <div class="tank-ctrl">
+        <button data-intake="${key}" data-d="-${STEP[key]}" aria-label="Retirer ${label}">−</button>
+        <button data-intake="${key}" data-d="${STEP[key]}" aria-label="Ajouter ${label}">+</button>
+      </div>
     </div>`;
 }
 
@@ -43,9 +54,10 @@ function macroCard(n) {
 }
 
 function render() {
-  const checks = getState().nutritionChecks[iso] || {};
-  const water = checks._water || 0;
-  const waterPct = Math.min(100, Math.round((water / WATER_TARGET) * 100));
+  const state = getState();
+  const checks = state.nutritionChecks[iso] || {};
+  const i = state.intake[iso] || {};
+  const eaten = { p: i.p || 0, g: i.g || 0, l: i.l || 0, water: i.water || 0 };
 
   const checklist = supplements
     .filter((s) => s.id !== "hydration")
@@ -65,21 +77,16 @@ function render() {
       <span class="dock-label">⊕ Arrimage · transfert</span>
     </div>
 
-    <p class="dim">Sans carburant, pas de mission. On remplit les réservoirs au bon moment — ${today.label.toLowerCase()}.</p>
+    <p class="dim">Sans carburant, pas de mission. Logge tes apports — les réservoirs se remplissent (${today.label.toLowerCase()}).</p>
 
     <h2 class="section-title" style="margin-top:var(--sp-5)">Réservoirs du jour</h2>
     <div class="fuel-grid">
-      ${tank("Prot.", today.p, "g", 100)}
-      ${tank("Gluc.", today.g, "g", 100)}
-      ${tank("Lip.", today.l, "g", 100)}
-      ${tank("Eau", (water / 1000).toFixed(2).replace(".", ","), "L", waterPct, "tank--water")}
+      ${tank("p", "Prot.", eaten.p, "g")}
+      ${tank("g", "Gluc.", eaten.g, "g")}
+      ${tank("l", "Lip.", eaten.l, "g")}
+      ${tank("water", "Eau", eaten.water, "L", "tank--water")}
     </div>
-    <div class="water-ctrl">
-      <button data-water="-${WATER_STEP}" aria-label="Retirer ${WATER_STEP} mL">−</button>
-      <span class="mono dim" style="align-self:center">${water} / ${WATER_TARGET} mL</span>
-      <button data-water="${WATER_STEP}" aria-label="Ajouter ${WATER_STEP} mL">+</button>
-    </div>
-    <p class="mono dim" style="text-align:center;margin-top:var(--sp-2)">${today.kcal} kcal · plein du jour</p>
+    <p class="mono dim" style="text-align:center;margin-top:var(--sp-3)">Cible ${today.label.toLowerCase()} · ${today.kcal} kcal · P${today.p} G${today.g} L${today.l}</p>
 
     <h2 class="section-title" style="margin-top:var(--sp-6)">Checklist compléments</h2>
     <ul class="check-list">${checklist}</ul>
@@ -99,7 +106,7 @@ function render() {
     </div>
   `;
 
-  // Remplissage animé des réservoirs (0 → niveau).
+  // Remplissage animé des réservoirs (0 → niveau loggé).
   requestAnimationFrame(() => {
     host.querySelectorAll("[data-fill]").forEach((n) => { n.style.height = n.dataset.p; });
   });
@@ -115,12 +122,13 @@ host.addEventListener("change", (e) => {
 });
 
 host.addEventListener("click", (e) => {
-  const w = e.target.closest("[data-water]");
-  if (!w) return;
+  const b = e.target.closest("[data-intake]");
+  if (!b) return;
+  const key = b.dataset.intake;
+  const d = Number(b.dataset.d);
   update((s) => {
-    s.nutritionChecks[iso] = s.nutritionChecks[iso] || {};
-    const cur = s.nutritionChecks[iso]._water || 0;
-    s.nutritionChecks[iso]._water = Math.max(0, cur + Number(w.dataset.water));
+    s.intake[iso] = s.intake[iso] || {};
+    s.intake[iso][key] = Math.max(0, (s.intake[iso][key] || 0) + d);
   });
   render();
 });

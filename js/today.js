@@ -5,10 +5,17 @@
 
 import { boot } from "./app.js";
 import { profile } from "../data/profile.js";
-import { getState } from "./lib/store.js";
-import { dayMeta, statusFor, labelForType } from "./lib/schedule.js";
+import { getState, setSetting } from "./lib/store.js";
+import { dayMeta, statusFor, labelForType, workDayAdvice } from "./lib/schedule.js";
 import { nutritionForSessionType } from "../data/nutrition.js";
 import { todayISO, daysUntil, fromISO, DAY_LABELS, MONTH_LABELS, weekdayIndex } from "./lib/date.js";
+
+// Premier lancement : on montre l'intro cinématique une seule fois,
+// puis l'app ouvre toujours directement sur le Poste de pilotage.
+if (!getState().settings.seenIntro) {
+  setSetting("seenIntro", true);
+  location.replace("index.html");
+}
 
 const host = document.querySelector("[data-today]");
 const iso = todayISO();
@@ -18,6 +25,7 @@ const contestDate = getState().settings.contestDate || profile.contestDate;
 const dleft = daysUntil(contestDate);
 const status = statusFor(iso);
 const nut = nutritionForSessionType(meta.type);
+const advice = workDayAdvice(iso);
 
 const dateLabel = `${DAY_LABELS[weekdayIndex(d)]} ${d.getDate()} ${MONTH_LABELS[d.getMonth()]}`;
 const sessionHref = `session.html?date=${iso}`;
@@ -50,6 +58,7 @@ host.innerHTML = `
     <p class="eyebrow">Séance du jour ${statusChip}</p>
     <h2 style="font-size:var(--fs-600);margin-top:var(--sp-1)">${meta.label}</h2>
     <p class="dim">${sessionSubtitle(meta)}</p>
+    ${advice ? `<p class="note">💼 ${advice}</p>` : ""}
     ${meta.type === "rest"
       ? `<p class="note">Jour de récupération. Hydrate, dors, marche un peu.</p>`
       : `<a class="btn btn-primary btn-block" href="${sessionHref}" style="margin-top:var(--sp-4)">

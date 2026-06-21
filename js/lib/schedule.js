@@ -56,6 +56,21 @@ export function isToday(iso) {
   return iso === todayISO();
 }
 
+/* Jour de travail (dispo d'entraînement réduite). */
+export function isWorkDay(iso) {
+  return !!getState().workDays[iso];
+}
+
+/* Conseil d'adaptation un jour de travail : on propose une option plus
+   légère sans l'imposer (l'utilisateur garde la main). */
+export function workDayAdvice(iso) {
+  if (!isWorkDay(iso)) return null;
+  const type = plannedType(iso);
+  if (type === "rest") return null;
+  if (type === "course") return "Jour de travail : séance course courte (EF 20–25′) ou à décaler.";
+  return "Jour de travail : séance courte conseillée (top sets only) ou repos.";
+}
+
 /* Statistiques d'assiduité sur une plage de dates passées. */
 export function attendanceStats(fromDate, toDate) {
   const state = getState();

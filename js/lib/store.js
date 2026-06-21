@@ -36,6 +36,10 @@ function defaultState() {
     sessionStatus: {},
     // type de séance surchargé par date : { [iso]: "push|pull|..." }
     sessionTypeByDate: {},
+    // jours de travail (dispo réduite) : { [iso]: true }
+    workDays: {},
+    // apport alimentaire loggé par date : { [iso]: { p, g, l, water } } (g et mL)
+    intake: {},
     // poids relevés : [{ iso, kg }]
     weightLog: [],
     // résultats de tests : [{ iso, halfCooperM, pullupsMax, wallsitS, vma }]

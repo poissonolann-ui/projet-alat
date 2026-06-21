@@ -13,10 +13,17 @@ destination : le 5ᵉ RHC de Pau.
 
 ## Ce que fait l'app
 
-- **Accueil** scrollytelling cinématique (hero plein cadre, parallaxe, plan de vol qui se trace).
-- **Aujourd'hui** : que faire aujourd'hui, compte à rebours du concours, macros du jour.
-- **Planning** : vues Jour / Semaine / Mois / 6 mois / Année. Ouvre sur aujourd'hui.
-  Cases colorées (vert = réalisée, rouge = manquée, gris = repos/à venir, aujourd'hui encadré).
+Navigation par **barre d'onglets basse** (4 onglets, tout à un tap) :
+**Poste de pilotage · Ravitaillement · Plan de vol · Suivi**. Au premier lancement,
+une intro cinématique s'affiche une fois, puis l'app ouvre toujours directement sur le
+**Poste de pilotage** (cf. `start_url` du manifest).
+
+- **Accueil / intro** scrollytelling cinématique (hero plein cadre, parallaxe, plan de vol qui se trace).
+- **Aujourd'hui (Poste de pilotage)** : que faire aujourd'hui, compte à rebours du concours, macros du jour, conseil les jours de travail.
+- **Planning (Plan de vol)** : carte de navigation 6 mois (route + « tu es ici ») puis vues
+  Jour / Semaine / Mois / 6 mois / Année. Ouvre sur aujourd'hui. Cases colorées
+  (vert = réalisée, rouge = manquée, gris = repos/à venir, aujourd'hui encadré).
+  **Jours de travail** marquables (dispo réduite → le plan propose une séance courte/repos).
 - **Séances** :
   - **Muscu** : 3 niveaux du jour (Fatigué / En forme / Pleine forme) qui ajustent les
     charges, RPE/RIR, **charges éditables et mémorisées**, cases « série faite »,
@@ -24,10 +31,13 @@ destination : le 5ᵉ RHC de Pau.
   - **Course** : segments avec **allures calculées depuis la VMA**, notes de prudence.
   - **Test** : demi-Cooper / tractions max / chaise — le demi-Cooper **met à jour la VMA**
     automatiquement (distance ÷ 100).
-- **Nutrition** : macros du jour, checklist compléments (créatine, vit. D/C, oméga 3, hydratation).
+- **Nutrition (Ravitaillement)** : réservoirs de carburant qui se remplissent selon l'**apport
+  loggé** (protéines / glucides / lipides / hydratation, % atteint par macro), checklist
+  compléments (créatine, vit. D/C, oméga 3 — **pas de whey**).
 - **Hangar** : galerie zoomable (pince, double-tap, glisse).
-- **Suivi & réglages** : assiduité, courbe de poids, réglages (VMA / poids cible / date du
-  concours), **export & import JSON**, réinitialisation.
+- **Suivi & réglages** : **jauges des 3 objectifs** (Tractions / Chaise / Luc Léger) qui
+  progressent de la valeur précédente à l'actuelle (historique des tests), assiduité, courbe
+  de poids, réglages (VMA / poids cible / date du concours), **export & import JSON**, réinitialisation.
 
 ---
 
