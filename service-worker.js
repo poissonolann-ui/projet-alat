@@ -5,7 +5,7 @@
    Aucune requête tierce en usage normal.
    ============================================================ */
 
-const VERSION = "achieve-v1.1.0";
+const VERSION = "achieve-v1.2.0";
 const CACHE = VERSION;
 
 /* App shell à précacher (tout ce qu'il faut pour démarrer hors-ligne). */

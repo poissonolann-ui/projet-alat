@@ -4,7 +4,7 @@
 
 import { registerSW } from "./app.js";
 import { mountMenu } from "./menu.js";
-import { initReveals, prefersReducedMotion } from "./lib/motion.js";
+import { initReveals, prefersReducedMotion, animateValue } from "./lib/motion.js";
 import { aircraft, pillarOrder, destination } from "../data/aircraft.js";
 import { goals, profile } from "../data/profile.js";
 import { getState } from "./lib/store.js";
@@ -38,36 +38,52 @@ function buildGauges() {
   const lastTest = state.tests[state.tests.length - 1];
 
   host.innerHTML = goals.map((g) => {
-    let cur = g.value;
+    const start = g.value;            // valeur de départ (référence)
+    let cur = g.value;                // valeur actuelle (maj par les tests)
     if (lastTest) {
       if (g.id === "pullups" && lastTest.pullupsMax != null) cur = lastTest.pullupsMax;
       if (g.id === "wallsit" && lastTest.wallsitS != null) cur = lastTest.wallsitS;
     }
-    const ratio = Math.max(0, Math.min(1, cur / g.target));
+    const ratio = Math.max(0, Math.min(1, cur / g.target));            // atteinte absolue → arc
+    const span = g.target - start;
+    const prog = span > 0 ? Math.max(0, Math.min(1, (cur - start) / span)) : 1; // progrès relatif → trajectoire
     const L = 131.95; // longueur du demi-cercle r=42
     const color = mixColor(ratio);
     return `
-      <div class="gauge" data-gauge data-ratio="${ratio}">
+      <div class="gauge" data-gauge data-ratio="${ratio}" data-start="${start}" data-cur="${cur}" data-fmt="${g.format}">
         <svg viewBox="0 0 100 64" aria-hidden="true">
           <path class="gauge-arc-bg" d="M8 50 A42 42 0 0 1 92 50"/>
           <path class="gauge-arc-fg" d="M8 50 A42 42 0 0 1 92 50"
                 stroke="${color}" stroke-dasharray="${L}" stroke-dashoffset="${L}"
                 data-len="${L}" data-target-offset="${L * (1 - ratio)}"/>
         </svg>
-        <div class="g-val">${fmtGoal(g, cur)} <span class="g-lbl">/ ${fmtGoal(g, g.target)}</span></div>
+        <div class="g-val"><span data-counter>${fmtGoal(g, start)}</span> <span class="g-lbl">/ ${fmtGoal(g, g.target)}</span></div>
         <div class="g-lbl">${g.label}</div>
+        <div class="g-traj" style="--p:0%">
+          <span class="g-traj-fill" data-traj data-p="${(prog * 100).toFixed(1)}%"></span>
+          <span class="g-traj-knob" data-knob data-p="${(prog * 100).toFixed(1)}%"></span>
+        </div>
+        <div class="g-ends"><span>${fmtGoal(g, start)}</span><span>${fmtGoal(g, g.target)}</span></div>
       </div>`;
   }).join("");
 
-  // Animation de remplissage à l'apparition.
+  // Animation à l'apparition : balayage d'arc + compteur qui défile + trajectoire.
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (!e.isIntersecting) return;
-      e.target.querySelectorAll(".gauge-arc-fg").forEach((arc) => {
-        const off = prefersReducedMotion() ? arc.dataset.targetOffset : arc.dataset.targetOffset;
-        requestAnimationFrame(() => { arc.style.strokeDashoffset = off; });
+      const el = e.target;
+      el.querySelectorAll(".gauge-arc-fg").forEach((arc) => {
+        requestAnimationFrame(() => { arc.style.strokeDashoffset = arc.dataset.targetOffset; });
       });
-      io.unobserve(e.target);
+      el.querySelectorAll("[data-traj],[data-knob]").forEach((n) => {
+        requestAnimationFrame(() => { n.style.setProperty(n.hasAttribute("data-knob") ? "left" : "width", n.dataset.p); });
+      });
+      // Compteur : défile de la valeur de départ → valeur actuelle.
+      const cnt = el.querySelector("[data-counter]");
+      const start = Number(el.dataset.start), cur = Number(el.dataset.cur), fmt = el.dataset.fmt;
+      const g = { format: fmt };
+      animateValue(start, cur, 1100, (v) => { cnt.textContent = fmtGoal(g, v); });
+      io.unobserve(el);
     });
   }, { threshold: 0.4 });
   host.querySelectorAll("[data-gauge]").forEach((el) => io.observe(el));

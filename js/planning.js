@@ -5,8 +5,10 @@
    ============================================================ */
 
 import { boot, mountHeader } from "./app.js";
-import { update } from "./lib/store.js";
+import { update, getState } from "./lib/store.js";
 import { dayMeta, statusFor, isToday, labelForType } from "./lib/schedule.js";
+import { profile } from "../data/profile.js";
+import { destination } from "../data/aircraft.js";
 import {
   todayISO, fromISO, toISO, addDays, startOfWeek, monthGrid,
   DAY_LABELS, MONTH_LABELS, weekdayIndex,
@@ -144,6 +146,58 @@ function legend() {
     </div>`;
 }
 
+/* ---------- Carte de navigation (route horizontale → ALAT) ---------- */
+const NAV_WP = [
+  { code: "WP00", name: "Départ" },
+  { code: "WP01", name: "Bloc 1" },
+  { code: "WP02", name: "Volume" },
+  { code: "WP03", name: "VMA" },
+  { code: "WP04", name: "Affûtage" },
+  { code: "DEST", name: destination.label, dest: true },
+];
+
+function buildNavmap() {
+  const host = document.querySelector("[data-navmap]");
+  if (!host) return;
+  const start = fromISO(profile.prepStartDate);
+  const contest = fromISO((getState().settings && getState().settings.contestDate) || profile.contestDate);
+  const now = new Date();
+  const total = contest - start;
+  const elapsed = total > 0 ? Math.max(0, Math.min(1, (now - start) / total)) : 0;
+  const n = NAV_WP.length;
+  const hereIndex = Math.min(n - 2, Math.floor(elapsed * (n - 1)));
+  const pct = Math.round(elapsed * 100);
+  const daysLeft = Math.max(0, Math.ceil((contest - now) / 86400000));
+
+  const wps = NAV_WP.map((wp, i) => {
+    const left = (i / (n - 1)) * 100;
+    const status = wp.dest ? "dest" : i < hereIndex ? "done" : i === hereIndex ? "here" : "todo";
+    return `<div class="nm-wp ${status}" style="left:${left}%"><span class="nm-dot"></span><span class="nm-code">${wp.code}</span></div>`;
+  }).join("");
+
+  host.innerHTML = `
+    <div class="navmap-head">
+      <span class="nm-title">Plan de vol · ${destination.unit}</span>
+      <span class="nm-pct">${pct}%</span>
+    </div>
+    <div class="nm-route">
+      <span class="nm-line"></span>
+      <span class="nm-progress" data-nmprog data-p="${pct}%"></span>
+      ${wps}
+      <span class="nm-plane" data-nmplane data-p="${pct}%"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c.8 0 1.3 1.4 1.4 3.2l.2 4.3 7.4 4v2l-7.3-2.2-.2 4.2 2.1 1.6v1.6L12 19.4 8.4 20.7v-1.6l2.1-1.6-.2-4.2L3 15.5v-2l7.4-4 .2-4.3C10.7 3.4 11.2 2 12 2z"/></svg></span>
+    </div>
+    <div class="nm-foot">
+      <span>Étape : <span class="here-name">${NAV_WP[hereIndex].name}</span></span>
+      <span>J−${daysLeft} · concours</span>
+    </div>
+  `;
+  // Tracé progressif de la route + repère mobile.
+  requestAnimationFrame(() => {
+    const pr = host.querySelector("[data-nmprog]"); if (pr) pr.style.width = pr.dataset.p;
+    const pl = host.querySelector("[data-nmplane]"); if (pl) pl.style.left = pl.dataset.p;
+  });
+}
+
 function render() {
   renderTabs();
   if (view === "Jour") renderDay();
@@ -203,5 +257,6 @@ typeGrid.addEventListener("click", (e) => {
 sheet.addEventListener("click", (e) => { if (e.target === sheet) closeSheet(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSheet(); });
 
+buildNavmap();
 render();
 boot();
