@@ -20,12 +20,14 @@ function buildPillars() {
     const a = aircraft[id];
     // Fond photographique heure dorée si dispo, sinon emplacement clair
     // + silhouette élégante de l'appareil (dérivée d'un vrai planform).
-    const media = a.photo
-      ? `<div class="pillar-media" style="background-image:url('${new URL(a.photo, document.baseURI).href}')" data-parallax-media aria-hidden="true"></div>`
-      : `<div class="pillar-figure">
+    const photoURL = a.photo ? new URL(a.photo, document.baseURI).href : "";
+    const figure = `<div class="pillar-figure">
            <span class="silhouette" role="img" aria-label="Silhouette ${a.name}" data-parallax style="--m:url('${new URL(a.svg, document.baseURI).href}')"></span>
            <span class="pillar-ph">Photo ${a.name} · heure dorée</span>
          </div>`;
+    const media = a.photo
+      ? `<div class="pillar-media" data-pillar-photo="${photoURL}" data-pillar-id="${id}" style="background-image:url('${photoURL}')" data-parallax-media aria-hidden="true"></div>`
+      : figure;
     return `
       <section class="pillar" data-accent="${id}" data-pillar>
         ${media}
@@ -37,6 +39,21 @@ function buildPillars() {
         </div>
       </section>`;
   }).join("");
+
+  // Repli silhouette si une photo de pilier est absente (404) : on évite le
+  // cadre vide tant que le visuel n'a pas été déposé dans aircraft/ref/.
+  host.querySelectorAll("[data-pillar-photo]").forEach((media) => {
+    const probe = new Image();
+    probe.onerror = () => {
+      const a = aircraft[media.dataset.pillarId];
+      if (!a) return;
+      media.outerHTML = `<div class="pillar-figure">
+           <span class="silhouette" role="img" aria-label="Silhouette ${a.name}" data-parallax style="--m:url('${new URL(a.svg, document.baseURI).href}')"></span>
+           <span class="pillar-ph">Photo ${a.name} · heure dorée</span>
+         </div>`;
+    };
+    probe.src = media.dataset.pillarPhoto;
+  });
 }
 
 /* ---------- Plan de vol (waypoints) ---------- */

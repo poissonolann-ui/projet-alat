@@ -61,7 +61,9 @@ export const aircraft = {
     pillar: "Nutrition",
     idea: "Ravitaillement en vol",
     svg: "aircraft/mrtt.svg",
-    photo: null,
+    // Photo plein cadre : MRTT ravitaillant deux Rafale. Tant que le fichier
+    // n'est pas déposé, le pilier retombe proprement sur la silhouette.
+    photo: "aircraft/ref/mrtt-phenix.jpg",
     accent: "var(--sky)",
     blurb:
       "Le ravitaillement en vol. Sans carburant, pas de mission. Macros, " +

@@ -5,7 +5,7 @@
    Aucune requête tierce en usage normal.
    ============================================================ */
 
-const VERSION = "achieve-v1.5.0";
+const VERSION = "achieve-v1.6.0";
 const CACHE = VERSION;
 
 /* App shell à précacher (tout ce qu'il faut pour démarrer hors-ligne). */
@@ -22,6 +22,7 @@ const PRECACHE = [
   // JS libs
   "./js/lib/store.js", "./js/lib/pace.js", "./js/lib/date.js",
   "./js/lib/schedule.js", "./js/lib/motion.js", "./js/lib/gauges.js",
+  "./js/lib/cursor.js",
   "./js/app.js", "./js/menu.js", "./js/home.js",
   "./js/planning.js", "./js/session.js", "./js/today.js",
   "./js/nutrition.js", "./js/tracking.js", "./js/hangar.js",
@@ -38,6 +39,7 @@ const PRECACHE = [
   // Photos heure dorée (piliers)
   "./aircraft/ref/rafale-tricolore.webp", "./aircraft/ref/caiman-golden.webp",
   "./aircraft/ref/tigre-sunset.webp", "./aircraft/ref/mirage.png",
+  "./aircraft/ref/mrtt-phenix.jpg",
 
   // Curseurs réticule (souris)
   "./assets/cursor-reticle.svg", "./assets/cursor-lock.svg",

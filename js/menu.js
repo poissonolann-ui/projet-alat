@@ -3,6 +3,8 @@
    Injecté sur chaque écran applicatif. Ouvre la navigation.
    ============================================================ */
 
+import { mountCursor } from "./lib/cursor.js";
+
 const PLANE_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c.8 0 1.3 1.4 1.4 3.2l.2 4.3 7.4 4v2l-7.3-2.2-.2 4.2 2.1 1.6v1.6L12 19.4 8.4 20.7v-1.6l2.1-1.6-.2-4.2L3 15.5v-2l7.4-4 .2-4.3C10.7 3.4 11.2 2 12 2z"/></svg>`;
 
 const LINKS = [
@@ -15,6 +17,9 @@ const LINKS = [
 ];
 
 export function mountMenu() {
+  // Réticule HUD qui suit la souris et le doigt (présent sur tous les écrans).
+  mountCursor();
+
   const current = location.pathname.replace(/\/$/, "") || "index.html";
 
   const trigger = document.createElement("button");
