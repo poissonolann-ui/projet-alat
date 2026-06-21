@@ -20,7 +20,8 @@ body {
   font-size: var(--fs-400);
   line-height: 1.6;
   color: var(--ink);
-  background: var(--bg-0);
+  background: var(--bg-app, var(--bg-0));
+  background-attachment: fixed;
   min-height: 100svh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

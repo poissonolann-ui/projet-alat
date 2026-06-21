@@ -26,21 +26,28 @@
   --ember-glow: rgba(255, 122, 47, .45);
   --amber-soft: rgba(255, 179, 92, .16);
 
-  /* --- Fonds dérivés (profondeur) --- */
-  --bg-0: #11161d;       /* fond le plus sombre */
-  --bg-1: #18202a;
-  --bg-2: var(--airframe);
-  --bg-elev: #222c38;    /* surfaces surélevées (cartes) */
-  --line: rgba(159, 198, 227, .14);   /* filets fins, esprit HUD */
-  --line-strong: rgba(159, 198, 227, .28);
+  /* --- Fonds dérivés (profondeur) — palette validée Claude Design --- */
+  --bg-0: #070809;       /* fond le plus sombre (quasi-noir) */
+  --bg-1: #0a0b0d;
+  --bg-2: #0e1014;
+  --bg-elev: #101216;    /* surfaces surélevées (cartes) */
+  --panel: #13151a;      /* panneaux légèrement plus clairs */
+  --line: rgba(159, 198, 227, .10);   /* filets fins, esprit HUD */
+  --line-strong: rgba(159, 198, 227, .22);
 
-  /* --- Statuts calendrier (tons doux, cf. §6/§7) --- */
-  --status-done:  #4f7d52;   /* vert réalisée */
-  --status-done-bg:  rgba(79, 125, 82, .22);
-  --status-miss:  #b14a4a;   /* rouge manquée */
-  --status-miss-bg:  rgba(177, 74, 74, .20);
+  /* Accent chaud principal (alias direct de la maquette : --accent) */
+  --accent: var(--ember);
+
+  /* Glow braise en haut d'écran (signature "heure dorée") */
+  --bg-app: radial-gradient(120% 80% at 50% -10%, #1a1410 0%, #0a0b0d 55%, #070809 100%);
+
+  /* --- Statuts calendrier (palette HUD validée — vifs sur fond noir) --- */
+  --status-done:  #c8e08a;   /* vert HUD réalisée */
+  --status-done-bg:  rgba(200, 224, 138, .14);
+  --status-miss:  #e0473a;   /* rouge manquée */
+  --status-miss-bg:  rgba(224, 71, 58, .16);
   --status-grey:  #3a444f;   /* repos / à venir */
-  --status-grey-bg:  rgba(91, 102, 117, .14);
+  --status-grey-bg:  rgba(159, 198, 227, .08);
 
   /* --- Typographie --- */
   --font-display: "Saira Semi Condensed", "Saira", system-ui, sans-serif;
